@@ -120,6 +120,19 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
   max-width: 480px;
   margin-bottom: 0;
 }
+.hero-pill-mobile {
+  display: none;
+  align-self: flex-start;
+  background: var(--azul-med);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1rem;
+}
 
 /* ── CARD INTRO ── */
 .intro-wrap {
@@ -128,10 +141,9 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
   padding: 2rem 1.5rem 4rem;
 }
 .intro-pergunta-label {
-  font-size: 11px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
   color: var(--azul-med);
   margin-bottom: 1rem;
 }
@@ -159,7 +171,7 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
   font-size: 14px; font-weight: 800;
   flex-shrink: 0;
 }
-.etapa-num.laranja { background: var(--azul-med); }
+.etapa-num.laranja { background: var(--azul); }
 .etapa-info strong { font-family: 'Raleway', sans-serif; display: block; font-size: 14px; font-weight: 700; color: var(--vinho); margin-bottom: 4px; }
 .etapa-info span { font-size: 13px; color: #6B6460; line-height: 1.55; }
 
@@ -331,6 +343,8 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
   .hero-titulo { font-size: 28px; }
   .intro-wrap, .grupos-wrap, .resultado-wrap { padding-left: 1rem; padding-right: 1rem; }
   .progress-bar-wrap, .enunciado-strip, .rodape-acao { padding-left: 1rem; padding-right: 1rem; }
+  .header-badge { display: none; }
+  .hero-pill-mobile { display: inline-block; }
 }
 </style>
 </head>
@@ -348,6 +362,7 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
   <div class="hero">
     <div class="hero-foto"></div>
     <div class="hero-content">
+      <span class="hero-pill-mobile">Mapeamento Motivacional</span>
       <h1 class="hero-titulo">O que <em>move você</em><br>no trabalho?</h1>
       <p class="hero-subtitulo">Diferentes pessoas se motivam por diferentes razões no trabalho. Este mapeamento te ajuda a identificar quais necessidades se destacam para você — e quais delas você sente que já estão sendo atendidas atualmente.</p>
     </div>
