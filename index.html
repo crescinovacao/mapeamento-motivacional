@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapeamento Motivacional — Crescimentum</title>
+<link href="https://fonts.googleapis.com/css2?family=Aptos:wght@400;500;600;700;800&family=Raleway:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --laranja:       #FF5527;
+  --laranja-esc:   #733909;
+  --laranja-cla:   #FFC7AE;
+  --azul:          #001B71;
+  --azul-med:      #007BEA;
+  --azul-cla:      #B3DFFF;
+  --vinho:         #210000;
+  --cinza-fundo:   #F5F4F0;
+  --cinza-borda:   #DDD9D2;
+  --branco:        #FFFFFF;
+  --verde:         #003E00;
+  --vermelho:      #62003B;
+  --radius:        10px;
+  --radius-lg:     10px;
+  --radius-pill:   100px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fundo); color: var(--vinho); min-height: 100vh; }
+
+/* ── HEADER ── */
+.header {
+  background: var(--azul);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.header-cresci {
+  height: 28px;
+  display: block;
+}
+.header-cresci img {
+  height: 100%;
+  width: auto;
+  display: block;
+}
+.header-badge {
+  background: var(--azul-med);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: var(--radius-pill);
+}
+
+/* ── TELAS ── */
+.tela { display: none; }
+.tela.ativa { display: block; }
+
+/* ── HERO / INTRO ── */
+.hero {
+  position: relative;
+  background: var(--azul);
+  min-height: 280px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+.hero-foto {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://i.imgur.com/LVYHXHG.png');
+  background-size: cover;
+  background-position: center center;
+  opacity: 0.35;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 2rem 2rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.hero-pill {
+  display: inline-block;
+  background: var(--azul-med);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1.25rem;
+  align-self: flex-start;
+}
+.hero-titulo {
+  font-family: 'Raleway', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+  max-width: 520px;
+}
+.hero-titulo em {
+  color: var(--azul-cla);
+  font-style: normal;
+}
+.hero-subtitulo {
+  font-size: 14px;
+  color: white;
+  line-height: 1.6;
+  max-width: 480px;
+  margin-bottom: 0;
+}
+
+/* ── CARD INTRO ── */
+.intro-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+.intro-pergunta-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--azul-med);
+  margin-bottom: 1rem;
+}
+.etapas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 2rem;
+}
+.etapa-card {
+  background: var(--branco);
+  border: 1px solid var(--cinza-borda);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.etapa-num {
+  width: 32px; height: 32px;
+  background: var(--azul);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800;
+  flex-shrink: 0;
+}
+.etapa-num.laranja { background: var(--azul-med); }
+.etapa-info strong { font-family: 'Raleway', sans-serif; display: block; font-size: 14px; font-weight: 700; color: var(--vinho); margin-bottom: 4px; }
+.etapa-info span { font-size: 13px; color: #6B6460; line-height: 1.55; }
+
+/* ── BTN ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 30px;
+  border-radius: 10px;
+  font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; border: none;
+  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: 0.02em;
+}
+.btn:active { transform: scale(0.98); }
+.btn-laranja { background: var(--azul-med); color: white; }
+.btn-laranja:hover { opacity: 0.88; }
+.btn-azul { background: var(--azul); color: white; }
+.btn-azul:hover { opacity: 0.88; }
+.btn-outline { background: transparent; color: var(--azul); border: 2px solid var(--azul); }
+.btn-outline:hover { background: #EBF0FA; }
+.btn:disabled { opacity: 0.32; cursor: not-allowed; transform: none; }
+
+/* ── STICKY TOPO ── */
+.sticky-topo {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--azul);
+}
+.progress-bar-wrap {
+  padding: 0.85rem 2rem;
+  display: flex; align-items: center; gap: 14px;
+}
+.progress-label { font-size: 12px; font-weight: 700; color: var(--azul-cla); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; min-width: 110px; }
+.progress-track { flex: 1; height: 5px; background: rgba(255,255,255,0.18); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--azul-cla); border-radius: 3px; transition: width 0.35s ease; }
+.counter-badge { background: rgba(255,255,255,0.12); color: white; font-size: 13px; font-weight: 800; padding: 5px 16px; border-radius: var(--radius-pill); white-space: nowrap; border: 1px solid rgba(255,255,255,0.2); transition: background 0.2s, color 0.2s; }
+.counter-badge.cheio { background: var(--azul-med); border-color: var(--azul-med); }
+
+.enunciado-strip {
+  background: var(--azul-med);
+  padding: 0.85rem 2rem;
+}
+.enunciado-strip p { color: white; font-size: 14px; line-height: 1.55; }
+.enunciado-strip strong { font-weight: 800; }
+
+/* ── GRUPOS ── */
+.grupos-wrap { max-width: 860px; margin: 0 auto; padding: 1.5rem 1.5rem 0; display: flex; flex-direction: column; gap: 12px; }
+.grupo-bloco { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: var(--radius-lg); overflow: hidden; }
+.grupo-header {
+  padding: 11px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--azul);
+}
+.grupo-pill {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--azul-cla);
+}
+.grupo-sel-count {
+  font-size: 12px; color: var(--azul-cla); font-weight: 700;
+  background: rgba(255,255,255,0.10);
+  padding: 2px 10px; border-radius: var(--radius-pill);
+  opacity: 0; transition: opacity 0.2s;
+}
+.grupo-sel-count.vis { opacity: 1; }
+
+.itens-lista { display: flex; flex-direction: column; }
+.item-card {
+  padding: 12px 18px; cursor: pointer;
+  display: flex; align-items: flex-start; gap: 14px;
+  border-bottom: 1px solid var(--cinza-borda);
+  transition: background 0.12s;
+  user-select: none;
+}
+.item-card:last-child { border-bottom: none; }
+.item-card:hover:not(.bloqueado) { background: #EBF4FC; }
+.item-card.selecionado { background: #DCEAF8; }
+.item-card.bloqueado:not(.selecionado) { opacity: 0.38; cursor: not-allowed; }
+.item-num { font-size: 10px; font-weight: 700; color: #AAA09A; min-width: 20px; padding-top: 3px; }
+.item-check {
+  width: 20px; height: 20px;
+  border: 2px solid var(--cinza-borda);
+  border-radius: 5px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s, border-color 0.12s;
+  margin-top: 1px;
+}
+.item-card.selecionado .item-check { background: var(--azul-med); border-color: var(--azul-med); }
+.item-card.selecionado .item-check::after {
+  content: '';
+  width: 10px; height: 6px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) translateY(-1px);
+  display: block;
+}
+.item-texto { font-size: 14px; line-height: 1.5; color: var(--vinho); flex: 1; }
+
+/* ── RODAPÉ FIXO ── */
+.rodape-acao {
+  position: sticky; bottom: 0;
+  background: var(--branco);
+  border-top: 1px solid var(--cinza-borda);
+  padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.rodape-hint { font-size: 13px; color: #6B6460; }
+
+/* ── ETAPA 2 intro ── */
+.satisfeitas-intro {
+  max-width: 860px; margin: 0 auto;
+  padding: 1.5rem 1.5rem 0;
+}
+.satisfeitas-intro-inner {
+  background: var(--azul);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+}
+.satisfeitas-intro-inner p { color: var(--azul-cla); font-size: 14px; line-height: 1.6; }
+.satisfeitas-intro-inner strong { color: white; }
+
+/* ── RESULTADO ── */
+.resultado-hero {
+  background: var(--azul);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+}
+.resultado-hero h2 { font-family: 'Raleway', sans-serif; font-size: 24px; font-weight: 700; color: white; margin-bottom: 6px; }
+.resultado-hero p { font-size: 14px; color: var(--azul-cla); line-height: 1.6; max-width: 500px; margin: 0 auto; }
+
+.resultado-wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+.revelacao-box {
+  background: var(--azul-med);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.revelacao-box p { color: white; font-size: 14px; line-height: 1.6; }
+
+.grafico-container {
+  background: var(--branco);
+  border: 1px solid var(--cinza-borda);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.grafico-titulo { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--azul); margin-bottom: 1rem; }
+.legenda { display: flex; gap: 20px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.legenda-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6B6460; }
+.legenda-cor { width: 12px; height: 12px; border-radius: 3px; }
+
+.listas-resultado { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
+.lista-card { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: var(--radius-lg); overflow: hidden; }
+.lista-card-header { padding: 12px 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.lista-card-header.sat { background: var(--verde); color: white; }
+.lista-card-header.nao { background: var(--vermelho); color: white; }
+.lista-card ul { list-style: none; padding: 8px 0; }
+.lista-card ul li { padding: 6px 16px; font-size: 13px; line-height: 1.4; color: var(--vinho); border-bottom: 1px solid var(--cinza-fundo); display: flex; gap: 8px; align-items: flex-start; }
+.lista-card ul li:last-child { border-bottom: none; }
+.lista-card ul li::before { content: '·'; font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: -1px; }
+.lista-card-header.sat + ul li::before { color: var(--verde); }
+.lista-card-header.nao + ul li::before { color: var(--vermelho); }
+.lista-vazia { padding: 16px; font-size: 13px; color: #6B6460; font-style: italic; text-align: center; }
+
+.btn-reiniciar { display: flex; justify-content: center; margin-top: 1.5rem; }
+
+@media (max-width: 600px) {
+  .etapas-grid { grid-template-columns: 1fr; }
+  .listas-resultado { grid-template-columns: 1fr; }
+  .hero-titulo { font-size: 28px; }
+  .intro-wrap, .grupos-wrap, .resultado-wrap { padding-left: 1rem; padding-right: 1rem; }
+  .progress-bar-wrap, .enunciado-strip, .rodape-acao { padding-left: 1rem; padding-right: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <span class="header-cresci"><img src="https://i.imgur.com/fUPVKmL.png" alt="Crescimentum"></span>
+  <span class="header-badge">Mapeamento Motivacional</span>
+</header>
+
+<!-- TELA INTRO -->
+<div class="tela ativa" id="tela-intro">
+
+  <div class="hero">
+    <div class="hero-foto"></div>
+    <div class="hero-content">
+      <h1 class="hero-titulo">O que <em>move você</em><br>no trabalho?</h1>
+      <p class="hero-subtitulo">Diferentes pessoas se motivam por diferentes razões no trabalho. Este mapeamento te ajuda a identificar quais necessidades se destacam para você — e quais delas você sente que já estão sendo atendidas atualmente.</p>
+    </div>
+  </div>
+
+  <div class="intro-wrap">
+    <p class="intro-pergunta-label">O que você vai fazer?</p>
+    <div class="etapas-grid">
+      <div class="etapa-card">
+        <div class="etapa-num">1</div>
+        <div class="etapa-info">
+          <strong>O que você valoriza</strong>
+          <span>Você vai ver 100 afirmações em 10 grupos. Escolha, no total, as 20 que mais gostaria que o seu trabalho proporcionasse. Não há limite por grupo.</span>
+        </div>
+      </div>
+      <div class="etapa-card">
+        <div class="etapa-num laranja">2</div>
+        <div class="etapa-info">
+          <strong>O que já está presente</strong>
+          <span>Dos 20 itens que você escolheu, indique quais você sente que já estão sendo atendidos no seu trabalho hoje.</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-laranja" onclick="irParaEtapa1()">Começar →</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- TELA ETAPA 1 -->
+<div class="tela" id="tela-etapa1">
+
+  <div class="sticky-topo">
+    <div class="progress-bar-wrap">
+      <span class="progress-label">Etapa 1 de 2</span>
+      <div class="progress-track"><div class="progress-fill" id="barra1" style="width:0%"></div></div>
+      <span class="counter-badge" id="contador1">0 / 20</span>
+    </div>
+    <div class="enunciado-strip">
+      <p>Selecione as <strong>20 afirmações</strong> que mais gostaria que o seu trabalho proporcionasse. A categoria de cada grupo será revelada no resultado.</p>
+    </div>
+  </div>
+
+  <div class="grupos-wrap" id="grupos-etapa1"></div>
+
+  <div class="rodape-acao">
+    <span class="rodape-hint" id="hint-etapa1">Selecione 20 itens para continuar</span>
+    <button class="btn btn-azul" id="btn-avancar1" onclick="irParaEtapa2()" disabled>Continuar →</button>
+  </div>
+
+</div>
+
+<!-- TELA ETAPA 2 -->
+<div class="tela" id="tela-etapa2">
+
+  <div class="sticky-topo">
+    <div class="progress-bar-wrap">
+      <span class="progress-label">Etapa 2 de 2</span>
+      <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
+      <span class="counter-badge cheio">Quase lá!</span>
+    </div>
+  </div>
+
+  <div class="satisfeitas-intro">
+    <div class="satisfeitas-intro-inner">
+      <p>Abaixo estão os <strong>20 itens que você priorizou</strong>. Marque agora apenas aqueles que você sente que <strong>já estão presentes</strong> no seu trabalho hoje. Pode marcar quantos quiser.</p>
+    </div>
+  </div>
+
+  <div class="grupos-wrap" id="grupos-etapa2"></div>
+
+  <div class="rodape-acao">
+    <button class="btn btn-outline" onclick="voltarEtapa1()">← Voltar</button>
+    <button class="btn btn-laranja" onclick="verResultado()">Ver meu resultado →</button>
+  </div>
+
+</div>
+
+<!-- TELA RESULTADO -->
+<div class="tela" id="tela-resultado">
+
+  <div class="resultado-hero">
+    <h2>Seu mapeamento motivacional</h2>
+    <p>Veja como suas escolhas se distribuem entre as diferentes necessidades — e quais delas ainda pedem atenção.</p>
+  </div>
+
+  <div class="resultado-wrap">
+    <div class="revelacao-box">
+      <p>Os 10 grupos que você viu correspondem a 10 tipos de necessidade motivacional. Agora você pode ver onde suas escolhas se concentraram.</p>
+    </div>
+
+    <div class="grafico-container">
+      <div class="grafico-titulo">Necessidades por categoria</div>
+      <div class="legenda">
+        <div class="legenda-item"><div class="legenda-cor" style="background:#003E00;"></div><span>Valorizadas e satisfeitas</span></div>
+        <div class="legenda-item"><div class="legenda-cor" style="background:#62003B;"></div><span>Valorizadas, mas não satisfeitas</span></div>
+      </div>
+      <div style="position:relative; width:100%;" id="grafico-wrap">
+        <canvas id="grafico" role="img" aria-label="Gráfico de barras com necessidades motivacionais por categoria"></canvas>
+      </div>
+    </div>
+
+    <div class="listas-resultado">
+      <div class="lista-card">
+        <div class="lista-card-header sat">✓ Satisfeitas</div>
+        <ul id="lista-satisfeitas"></ul>
+      </div>
+      <div class="lista-card">
+        <div class="lista-card-header nao">! Valorizadas, não satisfeitas</div>
+        <ul id="lista-nao-satisfeitas"></ul>
+      </div>
+    </div>
+
+    <div class="btn-reiniciar">
+      <button class="btn btn-outline" onclick="reiniciar()">Refazer o mapeamento</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const GRUPOS = [
+  { nome:"Grupo 1", cat:"Reconhecimento", itens:[
+    {n:1,  texto:"Receber tarefas delegadas pela minha competência para realizá-las."},
+    {n:4,  texto:"Ver minhas ações escolhidas como exemplo de boas práticas."},
+    {n:8,  texto:"Receber feedback sobre os trabalhos que realizo."},
+    {n:13, texto:"Sentir que meu trabalho contribui para os resultados da empresa."},
+    {n:69, texto:"Ter avaliações periódicas do meu desempenho."},
+    {n:72, texto:"Ser reconhecido publicamente na empresa pelo bom desempenho."},
+    {n:75, texto:"Haver na empresa uma política de premiação por bons resultados que me permita me destacar."},
+    {n:87, texto:"Ter remuneração variável associada ao meu bom desempenho."},
+    {n:95, texto:"Sentir que meus líderes acompanham e valorizam meu trabalho."},
+    {n:96, texto:"Querer que as pessoas percebam o quanto sou competente no que faço."}
+  ]},
+  { nome:"Grupo 2", cat:"Segurança", itens:[
+    {n:2,  texto:"Ter plano de saúde e benefícios satisfatórios."},
+    {n:19, texto:"Estar tranquilo com a estabilidade financeira da empresa."},
+    {n:23, texto:"Trabalhar naquilo que sei que faço bem."},
+    {n:25, texto:"Ter um salário fixo garantido."},
+    {n:37, texto:"Ter minha função bem descrita e saber o que esperam de mim."},
+    {n:52, texto:"Ter tarefas relativamente simples e bem definidas."},
+    {n:53, texto:"Trabalhar em projetos com procedimentos claramente definidos."},
+    {n:54, texto:"Poder planejar minhas tarefas de forma a evitar imprevistos."},
+    {n:59, texto:"Ter um contrato de trabalho que me dê estabilidade."},
+    {n:81, texto:"Ter alguém que defina objetivos claros para o meu trabalho."}
+  ]},
+  { nome:"Grupo 3", cat:"Curiosidade", itens:[
+    {n:7,  texto:"Saber o que meus líderes ou colegas pensam de mim e do trabalho que faço."},
+    {n:14, texto:"Poder conhecer as razões das decisões que são tomadas."},
+    {n:38, texto:"Ter informação sobre o que me cerca, porque para mim é a força que guia tudo que faço."},
+    {n:43, texto:"Ter acesso a informações da empresa."},
+    {n:49, texto:"Poder resolver problemas completamente novos para mim."},
+    {n:57, texto:"Conhecer novas formas de fazer as coisas."},
+    {n:58, texto:"Ter tarefas variadas em que posso pesquisar informações complementares."},
+    {n:61, texto:"Saber os salários de todos os que trabalham comigo."},
+    {n:62, texto:"Conhecer as avaliações dos meus colegas."},
+    {n:92, texto:"Conhecer os projetos em que meus colegas estão envolvidos."}
+  ]},
+  { nome:"Grupo 4", cat:"Sociais", itens:[
+    {n:5,  texto:"Participar de trabalhos em grupo e reuniões de compartilhamento de boas práticas."},
+    {n:12, texto:"Poder conviver com meus colegas de trabalho."},
+    {n:17, texto:"Participar de atividades que promovam o espírito de equipe."},
+    {n:24, texto:"Trabalhar com pessoas com quem me identifico."},
+    {n:39, texto:"Ter horário flexível que me permita tempo para família e amigos."},
+    {n:48, texto:"Estar integrado à minha equipe."},
+    {n:56, texto:"Poder participar de atividades promovidas pela empresa, como confraternizações, almoços e eventos."},
+    {n:74, texto:"Ser aceito como membro do grupo de trabalho, podendo compartilhar ideias e pontos de vista."},
+    {n:84, texto:"Ter tempo para uma vida pessoal ativa."},
+    {n:93, texto:"Poder participar de um grupo esportivo ou de bem-estar na empresa."}
+  ]},
+  { nome:"Grupo 5", cat:"Sentir-se Importante", itens:[
+    {n:3,  texto:"Ter responsabilidades atribuídas a mim."},
+    {n:6,  texto:"Ter privilégios exclusivos."},
+    {n:11, texto:"Poder ser escolhido para receber um prêmio ou ser reconhecido pelo excelente desempenho."},
+    {n:16, texto:"Ter um carro da empresa compatível com meu nível na organização."},
+    {n:30, texto:"Sentir que as pessoas reconhecem a importância da minha função."},
+    {n:35, texto:"Sentir que meus colegas me admiram."},
+    {n:67, texto:"Ter um título de cargo que corresponda à minha responsabilidade."},
+    {n:70, texto:"Ter minha opinião solicitada com frequência."},
+    {n:78, texto:"Sentir que meus colegas me respeitam."},
+    {n:98, texto:"Ter poucas pessoas a quem prestar contas ou que controlem meu trabalho."}
+  ]},
+  { nome:"Grupo 6", cat:"Básicas", itens:[
+    {n:15, texto:"Ter um trabalho que me permita ter um intervalo de almoço mais tranquilo."},
+    {n:18, texto:"Ter um trabalho que me permita ter tempo para descansar."},
+    {n:22, texto:"Ter refeitório na empresa ou restaurantes próximos com refeições de qualidade e bom preço."},
+    {n:26, texto:"Ter uma remuneração que me permita ter uma boa moradia."},
+    {n:29, texto:"Poder definir meu próprio horário de trabalho."},
+    {n:31, texto:"Trabalhar em um local próximo de casa, com tempo de deslocamento curto."},
+    {n:36, texto:"Ter a possibilidade de fazer pausas para comer e tomar café."},
+    {n:50, texto:"Ter um local de trabalho confortável, climatizado, bem localizado e com boas instalações ou acesso a refeições de qualidade."},
+    {n:55, texto:"Ter uma remuneração que me permita um bom padrão de vida."},
+    {n:90, texto:"Trabalhar em um local organizado, limpo e arejado."}
+  ]},
+  { nome:"Grupo 7", cat:"Poder", itens:[
+    {n:9,  texto:"Ter uma função que se relacione com muitas áreas da empresa."},
+    {n:27, texto:"Ser líder."},
+    {n:33, texto:"Ter autoridade e poder."},
+    {n:34, texto:"Sentir que posso influenciar meu líder e meus colegas a adotarem minhas ideias."},
+    {n:44, texto:"Ser confidente de algumas pessoas."},
+    {n:47, texto:"Poder coordenar uma equipe."},
+    {n:66, texto:"Lidar com poucos imprevistos ou ter autonomia para resolvê-los."},
+    {n:91, texto:"Saber que as promoções dependem do bom desempenho."},
+    {n:94, texto:"Ter autonomia para decidir na maior parte das minhas tarefas."},
+    {n:97, texto:"Saber que tenho responsabilidade e poder de decisão para influenciar o rumo das coisas."}
+  ]},
+  { nome:"Grupo 8", cat:"Desenvolvimento", itens:[
+    {n:10, texto:"Poder ter experiências novas."},
+    {n:20, texto:"Sentir que posso ser promovido ou assumir outras funções na empresa."},
+    {n:21, texto:"Trabalhar em uma empresa em crescimento."},
+    {n:28, texto:"Ter acesso a novas tecnologias."},
+    {n:32, texto:"Ter possibilidades de crescimento na carreira."},
+    {n:80, texto:"Frequentar seminários, conferências e treinamentos para desenvolvimento profissional."},
+    {n:82, texto:"Poder testar novas ideias, formas de atuar e ser criativo."},
+    {n:86, texto:"Sentir que meu trabalho contribui para meu crescimento pessoal."},
+    {n:88, texto:"Ter oportunidades de aumentar meus conhecimentos e competências."},
+    {n:89, texto:"Ter novas responsabilidades atribuídas a mim."}
+  ]},
+  { nome:"Grupo 9", cat:"Realização", itens:[
+    {n:40, texto:"Poder ver claramente os resultados do meu trabalho."},
+    {n:42, texto:"Sentir que gosto do que faço."},
+    {n:46, texto:"Sentir que a empresa me atribui tarefas que aproveitam o que sei e gosto de fazer."},
+    {n:51, texto:"Poder sentir que evoluo profissionalmente."},
+    {n:60, texto:"Poder contribuir com ideias novas e me desafiar a ir além."},
+    {n:65, texto:"Ter metas desafiadoras e superar desafios."},
+    {n:68, texto:"Sentir que meu trabalho desafia meu potencial."},
+    {n:79, texto:"Ter a sensação de importância e significado do que faço para o sucesso da empresa."},
+    {n:83, texto:"Resolver problemas complexos, situações que me coloquem à prova."},
+    {n:99, texto:"Poder trabalhar por prazer."}
+  ]},
+  { nome:"Grupo 10", cat:"Ideais e Valores", itens:[
+    {n:41, texto:"Sentir que a empresa se preocupa com o bem-estar dos colaboradores."},
+    {n:45, texto:"Sentir que minha empresa contribui para o desenvolvimento da sociedade."},
+    {n:63, texto:"Ter a sensação de ser socialmente útil."},
+    {n:64, texto:"Sentir que existem padrões éticos elevados na organização."},
+    {n:71, texto:"Poder ser útil aos colegas."},
+    {n:73, texto:"Sentir que existe equidade na distribuição de recompensas."},
+    {n:76, texto:"Confiar que não me será pedido que abra mão dos meus princípios éticos."},
+    {n:77, texto:"Sentir que meu trabalho me completa como pessoa."},
+    {n:85, texto:"Sentir que na organização as pessoas são respeitadas e valorizadas pela sua individualidade."},
+    {n:100,texto:"Sentir que pertenço à organização e à equipe — vestir a camisa."}
+  ]}
+];
+
+let valorizadas = new Set();
+let satisfeitas = new Set();
+let graficoInstance = null;
+
+function irParaEtapa1() {
+  document.getElementById('tela-intro').classList.remove('ativa');
+  document.getElementById('tela-etapa1').classList.add('ativa');
+  renderGrupos1();
+  window.scrollTo(0,0);
+}
+
+function renderGrupos1() {
+  const container = document.getElementById('grupos-etapa1');
+  container.innerHTML = '';
+  GRUPOS.forEach((grupo, gi) => {
+    const bloco = document.createElement('div');
+    bloco.className = 'grupo-bloco';
+    const sel = grupo.itens.filter(i => valorizadas.has(i.n)).length;
+    bloco.innerHTML = `
+      <div class="grupo-header">
+        <span class="grupo-pill">${grupo.nome} · ${grupo.itens.length} afirmações</span>
+        <span class="grupo-sel-count ${sel>0?'vis':''}" id="gc1-${gi}">${sel>0?sel+' selecionado'+(sel>1?'s':''):''}</span>
+      </div>
+      <div class="itens-lista" id="gi1-${gi}"></div>`;
+    container.appendChild(bloco);
+    renderItens1(gi);
+  });
+}
+
+function renderItens1(gi) {
+  const c = document.getElementById('gi1-'+gi);
+  if (!c) return;
+  c.innerHTML = '';
+  const cheio = valorizadas.size >= 20;
+  GRUPOS[gi].itens.forEach(item => {
+    const sel = valorizadas.has(item.n);
+    const bloq = cheio && !sel;
+    const div = document.createElement('div');
+    div.className = 'item-card'+(sel?' selecionado':'')+(bloq?' bloqueado':'');
+    div.innerHTML = `<span class="item-num">${item.n}</span><div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
+    div.addEventListener('click', () => toggleVal(item.n, gi));
+    c.appendChild(div);
+  });
+}
+
+function toggleVal(n, gi) {
+  if (valorizadas.has(n)) valorizadas.delete(n);
+  else { if (valorizadas.size >= 20) return; valorizadas.add(n); }
+  atualizarGrupo1(gi);
+  atualizarContador1();
+  atualizarBloqueios1();
+}
+
+function atualizarGrupo1(gi) {
+  const c = document.getElementById('gi1-'+gi);
+  if (!c) return;
+  const cheio = valorizadas.size >= 20;
+  const cards = c.querySelectorAll('.item-card');
+  GRUPOS[gi].itens.forEach((item,idx) => {
+    const sel = valorizadas.has(item.n);
+    cards[idx].className = 'item-card'+(sel?' selecionado':'')+(cheio&&!sel?' bloqueado':'');
+  });
+  const sel = GRUPOS[gi].itens.filter(i=>valorizadas.has(i.n)).length;
+  const el = document.getElementById('gc1-'+gi);
+  if (el) { el.textContent = sel>0?sel+' selecionado'+(sel>1?'s':''):''; el.className='grupo-sel-count'+(sel>0?' vis':''); }
+}
+
+function atualizarBloqueios1() {
+  const cheio = valorizadas.size >= 20;
+  GRUPOS.forEach((g,gi) => {
+    const c = document.getElementById('gi1-'+gi);
+    if (!c) return;
+    const cards = c.querySelectorAll('.item-card');
+    g.itens.forEach((item,idx) => {
+      const sel = valorizadas.has(item.n);
+      cards[idx].className = 'item-card'+(sel?' selecionado':'')+(cheio&&!sel?' bloqueado':'');
+    });
+  });
+}
+
+function atualizarContador1() {
+  const n = valorizadas.size;
+  document.getElementById('contador1').textContent = n+' / 20';
+  document.getElementById('contador1').className = 'counter-badge'+(n===20?' cheio':'');
+  document.getElementById('barra1').style.width = (n/20*100)+'%';
+  document.getElementById('btn-avancar1').disabled = n!==20;
+  const hint = document.getElementById('hint-etapa1');
+  if (n===20) hint.textContent = 'Ótimo! Clique em continuar para a próxima etapa.';
+  else if (n>0) hint.textContent = 'Faltam '+(20-n)+' item'+(20-n>1?'ns':'')+' para selecionar';
+  else hint.textContent = 'Selecione 20 itens para continuar';
+}
+
+function irParaEtapa2() {
+  satisfeitas = new Set();
+  document.getElementById('tela-etapa1').classList.remove('ativa');
+  document.getElementById('tela-etapa2').classList.add('ativa');
+  renderGrupos2();
+  window.scrollTo(0,0);
+}
+
+function renderGrupos2() {
+  const container = document.getElementById('grupos-etapa2');
+  container.innerHTML = '';
+  GRUPOS.forEach((grupo, gi) => {
+    const itensVal = grupo.itens.filter(i => valorizadas.has(i.n));
+    if (itensVal.length === 0) return;
+    const bloco = document.createElement('div');
+    bloco.className = 'grupo-bloco';
+    bloco.innerHTML = `
+      <div class="grupo-header">
+        <span class="grupo-pill">${grupo.nome}</span>
+        <span class="grupo-sel-count vis">${itensVal.length} item${itensVal.length>1?'ns':''}</span>
+      </div>
+      <div class="itens-lista" id="gi2-${gi}"></div>`;
+    container.appendChild(bloco);
+    const c = bloco.querySelector('#gi2-'+gi);
+    itensVal.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'item-card'+(satisfeitas.has(item.n)?' selecionado':'');
+      div.innerHTML = `<span class="item-num">${item.n}</span><div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
+      div.addEventListener('click', () => {
+        if (satisfeitas.has(item.n)) satisfeitas.delete(item.n);
+        else satisfeitas.add(item.n);
+        div.className = 'item-card'+(satisfeitas.has(item.n)?' selecionado':'');
+      });
+      c.appendChild(div);
+    });
+  });
+}
+
+function voltarEtapa1() {
+  document.getElementById('tela-etapa2').classList.remove('ativa');
+  document.getElementById('tela-etapa1').classList.add('ativa');
+  window.scrollTo(0,0);
+}
+
+function verResultado() {
+  document.getElementById('tela-etapa2').classList.remove('ativa');
+  document.getElementById('tela-resultado').classList.add('ativa');
+  gerarResultado();
+  window.scrollTo(0,0);
+}
+
+function gerarResultado() {
+  const d = {};
+  GRUPOS.forEach(g => d[g.cat] = {val:0, sat:0});
+  GRUPOS.forEach(g => g.itens.forEach(item => {
+    if (valorizadas.has(item.n)) {
+      d[g.cat].val++;
+      if (satisfeitas.has(item.n)) d[g.cat].sat++;
+    }
+  }));
+  const cats = GRUPOS.map(g=>g.cat);
+  const dataSat  = cats.map(c=>d[c].sat);
+  const dataNao  = cats.map(c=>d[c].val - d[c].sat);
+  const maxVal   = Math.max(...cats.map(c=>d[c].val), 4);
+
+  const wrap = document.getElementById('grafico-wrap');
+  wrap.style.height = Math.max(340, cats.length*44+80)+'px';
+  if (graficoInstance) { graficoInstance.destroy(); graficoInstance=null; }
+
+  graficoInstance = new Chart(document.getElementById('grafico').getContext('2d'), {
+    type:'bar',
+    data:{
+      labels: cats,
+      datasets:[
+        {label:'Satisfeitas',    data:dataSat, backgroundColor:'#003E00', borderRadius:4, borderSkipped:false},
+        {label:'Não satisfeitas',data:dataNao, backgroundColor:'#62003B', borderRadius:4, borderSkipped:false}
+      ]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.raw+' item'+(ctx.raw!==1?'ns':'')}}},
+      scales:{
+        x:{stacked:true, grid:{color:'rgba(0,0,0,0.06)'}, ticks:{stepSize:1,color:'#6B6460',font:{size:12}}, max:maxVal+1},
+        y:{stacked:true, grid:{display:false}, ticks:{color:'#210000',font:{size:12,weight:'600'},autoSkip:false}}
+      }
+    }
+  });
+
+  const lSat  = document.getElementById('lista-satisfeitas');
+  const lNao  = document.getElementById('lista-nao-satisfeitas');
+  lSat.innerHTML=''; lNao.innerHTML='';
+  const iSat = GRUPOS.flatMap(g=>g.itens).filter(i=>satisfeitas.has(i.n));
+  const iNao = GRUPOS.flatMap(g=>g.itens).filter(i=>valorizadas.has(i.n)&&!satisfeitas.has(i.n));
+  if (!iSat.length) lSat.innerHTML='<p class="lista-vazia">Nenhum item marcado como satisfeito.</p>';
+  else iSat.forEach(item=>{const li=document.createElement('li');li.textContent=item.texto;lSat.appendChild(li);});
+  if (!iNao.length) lNao.innerHTML='<p class="lista-vazia">Todas as necessidades estão satisfeitas!</p>';
+  else iNao.forEach(item=>{const li=document.createElement('li');li.textContent=item.texto;lNao.appendChild(li);});
+}
+
+function reiniciar() {
+  valorizadas=new Set(); satisfeitas=new Set();
+  if (graficoInstance){graficoInstance.destroy();graficoInstance=null;}
+  document.getElementById('tela-resultado').classList.remove('ativa');
+  document.getElementById('tela-intro').classList.add('ativa');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
