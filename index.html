@@ -221,6 +221,7 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
 .grupo-bloco { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: var(--radius-lg); overflow: hidden; }
 .grupo-header {
   padding: 11px 18px;
+  min-height: 44px;
   display: flex; align-items: center; justify-content: space-between;
   background: var(--azul);
 }
@@ -231,10 +232,12 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
 .grupo-sel-count {
   font-size: 12px; color: var(--azul-cla); font-weight: 700;
   background: rgba(255,255,255,0.10);
-  padding: 2px 10px; border-radius: var(--radius-pill);
-  opacity: 0; transition: opacity 0.2s;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  min-height: 22px; min-width: 1px;
+  display: flex; align-items: center;
+  visibility: hidden; transition: opacity 0.2s;
 }
-.grupo-sel-count.vis { opacity: 1; }
+.grupo-sel-count.vis { visibility: visible; }
 
 .itens-lista { display: flex; flex-direction: column; }
 .item-card {
@@ -335,7 +338,7 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
 .lista-card-header.nao + ul li::before { color: var(--vermelho); }
 .lista-vazia { padding: 16px; font-size: 13px; color: #6B6460; font-style: italic; text-align: center; }
 
-.btn-reiniciar { display: flex; justify-content: center; margin-top: 1.5rem; }
+.btn-reiniciar { display: flex; justify-content: center; gap: 12px; margin-top: 1.5rem; flex-wrap: wrap; }
 
 @media (max-width: 600px) {
   .etapas-grid { grid-template-columns: 1fr; }
@@ -488,12 +491,14 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
 
     <div class="btn-reiniciar">
       <button class="btn btn-outline" onclick="reiniciar()">Refazer o mapeamento</button>
+      <button class="btn btn-laranja" onclick="gerarPDF()">Baixar resultado em PDF</button>
     </div>
   </div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const GRUPOS = [
   { nome:"Grupo 1", cat:"Reconhecimento", itens:[
@@ -622,6 +627,24 @@ let valorizadas = new Set();
 let satisfeitas = new Set();
 let graficoInstance = null;
 
+// Pré-carrega o logo da Crescimentum para uso no PDF
+let logoCresci = null;
+(function(){
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = ()=>{
+    try {
+      const c = document.createElement('canvas');
+      c.width = img.naturalWidth; c.height = img.naturalHeight;
+      c.getContext('2d').drawImage(img,0,0);
+      logoCresci = { src: c.toDataURL('image/png'), width: img.naturalWidth, height: img.naturalHeight };
+    } catch(e) {
+      logoCresci = { src: img, width: img.naturalWidth, height: img.naturalHeight };
+    }
+  };
+  img.src = 'https://i.imgur.com/fUPVKmL.png';
+})();
+
 function irParaEtapa1() {
   document.getElementById('tela-intro').classList.remove('ativa');
   document.getElementById('tela-etapa1').classList.add('ativa');
@@ -706,7 +729,7 @@ function atualizarContador1() {
   document.getElementById('btn-avancar1').disabled = n!==20;
   const hint = document.getElementById('hint-etapa1');
   if (n===20) hint.textContent = 'Ótimo! Clique em continuar para a próxima etapa.';
-  else if (n>0) hint.textContent = 'Faltam '+(20-n)+' item'+(20-n>1?'ns':'')+' para selecionar';
+  else if (n>0) hint.textContent = 'Faltam '+(20-n)+(20-n>1?' itens':' item')+' para selecionar';
   else hint.textContent = 'Selecione 20 itens para continuar';
 }
 
@@ -729,7 +752,7 @@ function renderGrupos2() {
     bloco.innerHTML = `
       <div class="grupo-header">
         <span class="grupo-pill">${grupo.nome}</span>
-        <span class="grupo-sel-count vis">${itensVal.length} item${itensVal.length>1?'ns':''}</span>
+        <span class="grupo-sel-count vis">${itensVal.length} ${itensVal.length>1?'itens':'item'}</span>
       </div>
       <div class="itens-lista" id="gi2-${gi}"></div>`;
     container.appendChild(bloco);
@@ -781,16 +804,27 @@ function gerarResultado() {
 
   graficoInstance = new Chart(document.getElementById('grafico').getContext('2d'), {
     type:'bar',
+    plugins:[{
+      id:'fundoBranco',
+      beforeDraw:(chart)=>{
+        const ctx=chart.canvas.getContext('2d');
+        ctx.save();
+        ctx.globalCompositeOperation='destination-over';
+        ctx.fillStyle='#ffffff';
+        ctx.fillRect(0,0,chart.width,chart.height);
+        ctx.restore();
+      }
+    }],
     data:{
       labels: cats,
       datasets:[
-        {label:'Satisfeitas',    data:dataSat, backgroundColor:'#003E00', borderRadius:4, borderSkipped:false},
-        {label:'Não satisfeitas',data:dataNao, backgroundColor:'#62003B', borderRadius:4, borderSkipped:false}
+        {label:'Satisfeitas',    data:dataSat, backgroundColor:'#003E00', borderRadius:0, borderSkipped:false},
+        {label:'Não satisfeitas',data:dataNao, backgroundColor:'#62003B', borderRadius:0, borderSkipped:false}
       ]
     },
     options:{
       indexAxis:'y', responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.raw+' item'+(ctx.raw!==1?'ns':'')}}},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.raw+(ctx.raw!==1?' itens':' item')}}},
       scales:{
         x:{stacked:true, grid:{color:'rgba(0,0,0,0.06)'}, ticks:{stepSize:1,color:'#6B6460',font:{size:12}}, max:maxVal+1},
         y:{stacked:true, grid:{display:false}, ticks:{color:'#210000',font:{size:12,weight:'600'},autoSkip:false}}
@@ -807,6 +841,143 @@ function gerarResultado() {
   else iSat.forEach(item=>{const li=document.createElement('li');li.textContent=item.texto;lSat.appendChild(li);});
   if (!iNao.length) lNao.innerHTML='<p class="lista-vazia">Todas as necessidades estão satisfeitas!</p>';
   else iNao.forEach(item=>{const li=document.createElement('li');li.textContent=item.texto;lNao.appendChild(li);});
+}
+
+function gerarPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'pt', format:'a4' });
+  const PW = doc.internal.pageSize.getWidth();   // ~595
+  const PH = doc.internal.pageSize.getHeight();  // ~842
+  const M  = 48;                                  // margem lateral
+  const CW = PW - M*2;                            // largura útil
+
+  // Cores da marca
+  const azul    = [0,27,113];
+  const azulMed = [0,123,234];
+  const verde   = [0,62,0];
+  const vinho   = [98,0,59];
+  const vinhoTx = [33,0,0];
+  const cinza   = [107,100,96];
+
+  let y = 0;
+
+  // ── CABEÇALHO (faixa azul + logo centralizado) ──
+  function desenharCabecalho() {
+    doc.setFillColor(...azul);
+    doc.rect(0, 0, PW, 70, 'F');
+    if (logoCresci) {
+      const logoH = 24;
+      const logoW = logoH * (logoCresci.width / logoCresci.height);
+      doc.addImage(logoCresci.src, 'PNG', (PW - logoW)/2, (70 - logoH)/2, logoW, logoH);
+    } else {
+      // fallback caso o logo não tenha carregado
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(16);
+      doc.text('crescimentum', PW/2, 40, {align:'center'});
+    }
+  }
+
+  // Quebra de página com cabeçalho
+  function novaPagina() {
+    doc.addPage();
+    desenharCabecalho();
+    y = 100;
+  }
+  function checarEspaco(precisa) {
+    if (y + precisa > PH - 55) novaPagina();
+  }
+
+  // ── PÁGINA 1 ──
+  desenharCabecalho();
+  y = 100;
+
+  // Título
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(20);
+  doc.setTextColor(...azul);
+  doc.text('Seu mapeamento motivacional', M, y);
+  y += 22;
+
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(10.5);
+  doc.setTextColor(...vinhoTx);
+  const introTxt = 'Veja como suas escolhas se distribuem entre as diferentes necessidades e quais delas ainda pedem atenção.';
+  doc.text(doc.splitTextToSize(introTxt, CW), M, y);
+  y += 34;
+
+  // ── GRÁFICO (imagem do canvas) ──
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(12);
+  doc.setTextColor(...vinhoTx);
+  doc.text('Necessidades por categoria', M, y);
+  y += 16;
+
+  // legenda
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica','normal');
+  doc.setFillColor(...verde);
+  doc.rect(M, y-6, 9, 9, 'F');
+  doc.setTextColor(...vinhoTx);
+  doc.text('Valorizadas e satisfeitas', M+14, y+1);
+  const seg2x = M + 14 + doc.getTextWidth('Valorizadas e satisfeitas') + 18;
+  doc.setFillColor(...vinho);
+  doc.rect(seg2x, y-6, 9, 9, 'F');
+  doc.text('Valorizadas, mas não satisfeitas', seg2x+14, y+1);
+  y += 16;
+
+  // canvas -> imagem
+  const canvas = document.getElementById('grafico');
+  if (canvas) {
+    const imgData = canvas.toDataURL('image/png', 1.0);
+    const ratio = canvas.height / canvas.width;
+    const imgW = CW;
+    const imgH = imgW * ratio;
+    // fundo branco pro gráfico (canvas é transparente)
+    checarEspaco(imgH + 10);
+    doc.setFillColor(255,255,255);
+    doc.addImage(imgData, 'PNG', M, y, imgW, imgH);
+    y += imgH + 24;
+  }
+
+  // ── LISTAS ──
+  function desenharLista(titulo, corHeader, itens, vazio) {
+    checarEspaco(46);
+    // header
+    doc.setFillColor(...corHeader);
+    doc.roundedRect(M, y, CW, 24, 4, 4, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(10);
+    doc.text(titulo, M+12, y+16);
+    y += 44;
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...vinhoTx);
+    if (!itens.length) {
+      doc.setTextColor(...cinza);
+      doc.text(vazio, M+12, y);
+      y += 20;
+    } else {
+      itens.forEach(item => {
+        const linhas = doc.splitTextToSize('•  '+item.texto, CW-16);
+        const altura = linhas.length * 13 + 6;
+        checarEspaco(altura);
+        doc.text(linhas, M+12, y);
+        y += altura;
+      });
+    }
+    y += 16;
+  }
+
+  const iSat = GRUPOS.flatMap(g=>g.itens).filter(i=>satisfeitas.has(i.n));
+  const iNao = GRUPOS.flatMap(g=>g.itens).filter(i=>valorizadas.has(i.n)&&!satisfeitas.has(i.n));
+
+  desenharLista('SATISFEITAS', verde, iSat, 'Nenhum item marcado como satisfeito.');
+  desenharLista('VALORIZADAS, MAS NÃO SATISFEITAS', vinho, iNao, 'Todas as necessidades estão satisfeitas!');
+
+  doc.save('mapeamento-motivacional.pdf');
 }
 
 function reiniciar() {
