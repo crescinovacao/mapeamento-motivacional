@@ -251,7 +251,7 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
 .item-card:hover:not(.bloqueado) { background: #EBF4FC; }
 .item-card.selecionado { background: #DCEAF8; }
 .item-card.bloqueado:not(.selecionado) { opacity: 0.38; cursor: not-allowed; }
-.item-num { font-size: 10px; font-weight: 700; color: #AAA09A; min-width: 20px; padding-top: 3px; }
+.item-num { display: none; }
 .item-check {
   width: 20px; height: 20px;
   border: 2px solid var(--cinza-borda);
@@ -387,7 +387,7 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
         <div class="etapa-num">1</div>
         <div class="etapa-info">
           <strong>O que você valoriza</strong>
-          <span>Você vai ver 100 afirmações em 10 grupos. Escolha, no total, as 20 que mais gostaria que o seu trabalho proporcionasse. Não há limite por grupo.</span>
+          <span>Você vai ver 100 afirmações. Escolha as 20 que mais gostaria que o seu trabalho proporcionasse.</span>
         </div>
       </div>
       <div class="etapa-card">
@@ -415,7 +415,7 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
       <span class="counter-badge" id="contador1">0 / 20</span>
     </div>
     <div class="enunciado-strip">
-      <p>Selecione as <strong>20 afirmações</strong> que mais gostaria que o seu trabalho proporcionasse. A categoria de cada grupo será revelada no resultado.</p>
+      <p>Selecione as <strong>20 afirmações</strong> que mais gostaria que o seu trabalho proporcionasse.</p>
     </div>
   </div>
 
@@ -655,36 +655,24 @@ function irParaEtapa1() {
 function renderGrupos1() {
   const container = document.getElementById('grupos-etapa1');
   container.innerHTML = '';
-  GRUPOS.forEach((grupo, gi) => {
-    const bloco = document.createElement('div');
-    bloco.className = 'grupo-bloco';
-    const sel = grupo.itens.filter(i => valorizadas.has(i.n)).length;
-    bloco.innerHTML = `
-      <div class="grupo-header">
-        <span class="grupo-pill">${grupo.nome} · ${grupo.itens.length} afirmações</span>
-        <span class="grupo-sel-count ${sel>0?'vis':''}" id="gc1-${gi}">${sel>0?sel+' selecionado'+(sel>1?'s':''):''}</span>
-      </div>
-      <div class="itens-lista" id="gi1-${gi}"></div>`;
-    container.appendChild(bloco);
-    renderItens1(gi);
-  });
-}
-
-function renderItens1(gi) {
-  const c = document.getElementById('gi1-'+gi);
-  if (!c) return;
-  c.innerHTML = '';
+  const bloco = document.createElement('div');
+  bloco.className = 'grupo-bloco';
+  bloco.innerHTML = `<div class="itens-lista" id="lista-unica-1"></div>`;
+  container.appendChild(bloco);
+  const c = document.getElementById('lista-unica-1');
   const cheio = valorizadas.size >= 20;
-  GRUPOS[gi].itens.forEach(item => {
+  const todosItens = GRUPOS.flatMap((grupo, gi) => grupo.itens.map(item => ({...item, gi})));
+  todosItens.forEach(item => {
     const sel = valorizadas.has(item.n);
     const bloq = cheio && !sel;
     const div = document.createElement('div');
     div.className = 'item-card'+(sel?' selecionado':'')+(bloq?' bloqueado':'');
     div.innerHTML = `<span class="item-num">${item.n}</span><div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
-    div.addEventListener('click', () => toggleVal(item.n, gi));
+    div.addEventListener('click', () => toggleVal(item.n, item.gi));
     c.appendChild(div);
   });
 }
+
 
 function toggleVal(n, gi) {
   if (valorizadas.has(n)) valorizadas.delete(n);
@@ -695,29 +683,18 @@ function toggleVal(n, gi) {
 }
 
 function atualizarGrupo1(gi) {
-  const c = document.getElementById('gi1-'+gi);
-  if (!c) return;
-  const cheio = valorizadas.size >= 20;
-  const cards = c.querySelectorAll('.item-card');
-  GRUPOS[gi].itens.forEach((item,idx) => {
-    const sel = valorizadas.has(item.n);
-    cards[idx].className = 'item-card'+(sel?' selecionado':'')+(cheio&&!sel?' bloqueado':'');
-  });
-  const sel = GRUPOS[gi].itens.filter(i=>valorizadas.has(i.n)).length;
-  const el = document.getElementById('gc1-'+gi);
-  if (el) { el.textContent = sel>0?sel+' selecionado'+(sel>1?'s':''):''; el.className='grupo-sel-count'+(sel>0?' vis':''); }
+  atualizarBloqueios1();
 }
 
 function atualizarBloqueios1() {
   const cheio = valorizadas.size >= 20;
-  GRUPOS.forEach((g,gi) => {
-    const c = document.getElementById('gi1-'+gi);
-    if (!c) return;
-    const cards = c.querySelectorAll('.item-card');
-    g.itens.forEach((item,idx) => {
-      const sel = valorizadas.has(item.n);
-      cards[idx].className = 'item-card'+(sel?' selecionado':'')+(cheio&&!sel?' bloqueado':'');
-    });
+  const c = document.getElementById('lista-unica-1');
+  if (!c) return;
+  const todosItens = GRUPOS.flatMap(g => g.itens);
+  const cards = c.querySelectorAll('.item-card');
+  todosItens.forEach((item, idx) => {
+    const sel = valorizadas.has(item.n);
+    cards[idx].className = 'item-card'+(sel?' selecionado':'')+(cheio&&!sel?' bloqueado':'');
   });
 }
 
@@ -744,30 +721,22 @@ function irParaEtapa2() {
 function renderGrupos2() {
   const container = document.getElementById('grupos-etapa2');
   container.innerHTML = '';
-  GRUPOS.forEach((grupo, gi) => {
-    const itensVal = grupo.itens.filter(i => valorizadas.has(i.n));
-    if (itensVal.length === 0) return;
-    const bloco = document.createElement('div');
-    bloco.className = 'grupo-bloco';
-    bloco.innerHTML = `
-      <div class="grupo-header">
-        <span class="grupo-pill">${grupo.nome}</span>
-        <span class="grupo-sel-count vis">${itensVal.length} ${itensVal.length>1?'itens':'item'}</span>
-      </div>
-      <div class="itens-lista" id="gi2-${gi}"></div>`;
-    container.appendChild(bloco);
-    const c = bloco.querySelector('#gi2-'+gi);
-    itensVal.forEach(item => {
-      const div = document.createElement('div');
+  const bloco = document.createElement('div');
+  bloco.className = 'grupo-bloco';
+  bloco.innerHTML = `<div class="itens-lista" id="lista-unica-2"></div>`;
+  container.appendChild(bloco);
+  const c = document.getElementById('lista-unica-2');
+  const todosItens = GRUPOS.flatMap(g => g.itens).filter(i => valorizadas.has(i.n));
+  todosItens.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'item-card'+(satisfeitas.has(item.n)?' selecionado':'');
+    div.innerHTML = `<div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
+    div.addEventListener('click', () => {
+      if (satisfeitas.has(item.n)) satisfeitas.delete(item.n);
+      else satisfeitas.add(item.n);
       div.className = 'item-card'+(satisfeitas.has(item.n)?' selecionado':'');
-      div.innerHTML = `<span class="item-num">${item.n}</span><div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
-      div.addEventListener('click', () => {
-        if (satisfeitas.has(item.n)) satisfeitas.delete(item.n);
-        else satisfeitas.add(item.n);
-        div.className = 'item-card'+(satisfeitas.has(item.n)?' selecionado':'');
-      });
-      c.appendChild(div);
     });
+    c.appendChild(div);
   });
 }
 
