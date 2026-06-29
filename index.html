@@ -967,7 +967,18 @@ function _gerarPDF(btn) {
 
       y += barH + barGap;
     });
-    y += 8;
+    // Eixo X numérico
+    const maxEixo = maxVal + 1;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...cinza);
+    for (let i = 0; i <= maxEixo; i++) {
+      const xPos = M + labelW + (i / maxEixo) * barMaxW;
+      doc.text(String(i), xPos, y + 8, { align: 'center' });
+      doc.setDrawColor(200, 200, 200);
+      doc.line(xPos, y, xPos, y + 4);
+    }
+    y += 16;
   }
 
   function desenharLista(titulo, corHeader, itens, vazio) {
