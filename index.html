@@ -795,6 +795,9 @@ function gerarResultado() {
     },
     options: {
       indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      animation: {
+        onComplete: () => { graficoInstance._renderizado = true; }
+      },
       plugins: {
         legend: {display: false},
         tooltip: {callbacks: {label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.raw + (ctx.raw !== 1 ? ' itens' : ' item')}}
@@ -818,6 +821,22 @@ function gerarResultado() {
 }
 
 function gerarPDF() {
+  const btn = document.querySelector('[onclick="gerarPDF()"]');
+  if (btn) { btn.textContent = '⏳ Gerando PDF...'; btn.disabled = true; }
+  
+  function aguardarGrafico(tentativas) {
+    if (graficoInstance && graficoInstance._renderizado) {
+      _gerarPDF(btn);
+    } else if (tentativas > 0) {
+      setTimeout(() => aguardarGrafico(tentativas - 1), 200);
+    } else {
+      _gerarPDF(btn); // tenta mesmo assim após 2s
+    }
+  }
+  aguardarGrafico(10);
+}
+
+function _gerarPDF(btn) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit:'pt', format:'a4' });
   const PW = doc.internal.pageSize.getWidth();
@@ -937,6 +956,7 @@ function gerarPDF() {
   desenharLista('Valorizadas, mas não satisfeitas', vinho, iNao, 'Todas as necessidades estão satisfeitas!');
 
   doc.save('Mapeamento Motivacional - Meu resultado.pdf');
+  if (btn) { btn.textContent = 'Baixar resultado em PDF'; btn.disabled = false; }
 }
 
 function reiniciar() {
