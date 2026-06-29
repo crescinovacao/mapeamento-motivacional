@@ -4,263 +4,272 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mapeamento Motivacional — Crescimentum</title>
-<link href="https://fonts.googleapis.com/css2?family=Aptos:wght@400;500;600;700;800&family=Raleway:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --laranja:       #FF5527;
-  --laranja-esc:   #733909;
-  --laranja-cla:   #FFC7AE;
-  --azul:          #001B71;
-  --azul-med:      #007BEA;
-  --azul-cla:      #B3DFFF;
-  --vinho:         #210000;
-  --cinza-fundo:   #F5F4F0;
-  --cinza-borda:   #DDD9D2;
-  --branco:        #FFFFFF;
-  --verde:         #003E00;
-  --vermelho:      #62003B;
-  --radius:        10px;
-  --radius-lg:     10px;
-  --radius-pill:   100px;
+  --accent:          #007BEA;
+  --accent-dark:     #001B71;
+  --accent-light:    #B3DFFF;
+  --text:            #210000;
+  --text-light:      #666666;
+  --border:          #e0e0e0;
+  --bg:              #ffffff;
+  --bg-soft:         #f4f8fe;
+  --selected-bg:     #ebf5ff;
+  --selected-border: #007BEA;
+  --verde:           #003E00;
+  --vermelho:        #62003B;
+  --radius:          12px;
+  --max-w:           680px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fundo); color: var(--vinho); min-height: 100vh; }
 
-/* ── HEADER ── */
-.header {
-  background: var(--azul);
-  padding: 0 2rem;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Aptos', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 56px;
-}
-.header-cresci {
-  height: 28px;
-  display: block;
-}
-.header-cresci img {
-  height: 100%;
-  width: auto;
-  display: block;
-}
-.header-badge {
-  background: var(--azul-med);
-  color: white;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 5px 16px;
-  border-radius: var(--radius-pill);
 }
 
 /* ── TELAS ── */
-.tela { display: none; }
-.tela.ativa { display: block; }
+.screen {
+  display: none;
+  width: 100%;
+  max-width: var(--max-w);
+  padding: 48px 24px 80px;
+  flex-direction: column;
+  animation: fadeIn 0.35s ease;
+}
+.screen.active { display: flex; }
 
-/* ── HERO / INTRO ── */
-.hero {
-  position: relative;
-  background: var(--azul);
-  min-height: 280px;
-  display: flex;
-  align-items: stretch;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .screen { padding: 36px 16px 80px; }
+}
+
+/* ── IMAGENS ── */
+.img-placeholder {
+  width: 100%;
+  margin-bottom: 28px;
   overflow: hidden;
 }
-.hero-foto {
-  position: absolute;
-  inset: 0;
-  background-image: url('https://i.imgur.com/LVYHXHG.png');
-  background-size: cover;
-  background-position: center center;
-  opacity: 0.35;
-}
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 860px;
-  margin: 0 auto;
-  width: 100%;
-  padding: 2rem 2rem 2.25rem;
+.img-placeholder.empty {
+  aspect-ratio: 16/9;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border);
+  color: #aaa;
+  font-size: 13px;
 }
-.hero-pill {
-  display: inline-block;
-  background: var(--azul-med);
-  color: white;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 6px 18px;
-  border-radius: var(--radius-pill);
-  margin-bottom: 1.25rem;
-  align-self: flex-start;
-}
-.hero-titulo {
-  font-family: 'Raleway', sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: white;
-  line-height: 1.15;
-  margin-bottom: 0.75rem;
-  max-width: 520px;
-}
-.hero-titulo em {
-  color: var(--azul-cla);
-  font-style: normal;
-}
-.hero-subtitulo {
-  font-size: 14px;
-  color: white;
-  line-height: 1.6;
-  max-width: 480px;
-  margin-bottom: 0;
-}
-.hero-pill-mobile {
-  display: none;
-  align-self: flex-start;
-  background: var(--azul-med);
-  color: white;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 5px 16px;
-  border-radius: var(--radius-pill);
-  margin-bottom: 1rem;
+.img-placeholder img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
 }
 
-/* ── CARD INTRO ── */
-.intro-wrap {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
-.intro-pergunta-label {
+/* ── TIPOGRAFIA ── */
+.cover-title {
   font-family: 'Raleway', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--azul-med);
-  margin-bottom: 1rem;
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+  margin-bottom: 16px;
 }
+.section-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(20px, 4vw, 26px);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.body-text {
+  font-size: clamp(14px, 2.3vw, 15px);
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+
+/* ── BOTÕES ── */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 28px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: #0063c5; }
+.btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+
+.btn-back {
+  background: transparent;
+  color: var(--text-light);
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 0;
+  align-self: flex-start;
+  margin-bottom: 20px;
+}
+.btn-back:hover { color: var(--accent); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-outline:hover { background: var(--selected-bg); }
+
+.btn-restart {
+  background: transparent;
+  color: var(--text-light);
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 12px;
+  text-decoration: underline;
+}
+
+/* ── CARDS DE ETAPA (instruções) ── */
 .etapas-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 .etapa-card {
-  background: var(--branco);
-  border: 1px solid var(--cinza-borda);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem 1.5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
   display: flex;
   gap: 14px;
   align-items: flex-start;
 }
 .etapa-num {
   width: 32px; height: 32px;
-  background: var(--azul);
+  background: var(--accent-dark);
   color: white;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 14px; font-weight: 800;
   flex-shrink: 0;
 }
-.etapa-num.laranja { background: var(--azul); }
-.etapa-info strong { font-family: 'Raleway', sans-serif; display: block; font-size: 14px; font-weight: 700; color: var(--vinho); margin-bottom: 4px; }
-.etapa-info span { font-size: 13px; color: #6B6460; line-height: 1.55; }
-
-/* ── BTN ── */
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 13px 30px;
-  border-radius: 10px;
-  font-family: inherit; font-size: 14px; font-weight: 700;
-  cursor: pointer; border: none;
-  transition: opacity 0.15s, transform 0.1s;
-  letter-spacing: 0.02em;
+.etapa-info strong {
+  font-family: 'Raleway', sans-serif;
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
 }
-.btn:active { transform: scale(0.98); }
-.btn-laranja { background: var(--azul-med); color: white; }
-.btn-laranja:hover { opacity: 0.88; }
-.btn-azul { background: var(--azul); color: white; }
-.btn-azul:hover { opacity: 0.88; }
-.btn-outline { background: transparent; color: var(--azul); border: 2px solid var(--azul); }
-.btn-outline:hover { background: #EBF0FA; }
-.btn:disabled { opacity: 0.32; cursor: not-allowed; transform: none; }
+.etapa-info span { font-size: 13px; color: var(--text-light); line-height: 1.55; }
 
-/* ── STICKY TOPO ── */
+@media (max-width: 480px) {
+  .etapas-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════
+   TELAS DE ETAPA 1 E 2
+══════════════════════════════════════ */
+.etapa-screen {
+  display: none;
+  width: 100%;
+  animation: fadeIn 0.35s ease;
+  background: var(--bg);
+  min-height: 100vh;
+}
+.etapa-screen.active { display: block; }
+
+/* BARRA TOPO FIXA */
 .sticky-topo {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--azul);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
 }
-.progress-bar-wrap {
-  padding: 0.85rem 2rem;
+.progress-bar-inner {
+  width: 100%; max-width: var(--max-w);
+  padding: 14px 24px;
   display: flex; align-items: center; gap: 14px;
 }
-.progress-label { font-size: 12px; font-weight: 700; color: var(--azul-cla); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; min-width: 110px; }
-.progress-track { flex: 1; height: 5px; background: rgba(255,255,255,0.18); border-radius: 3px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--azul-cla); border-radius: 3px; transition: width 0.35s ease; }
-.counter-badge { background: rgba(255,255,255,0.12); color: white; font-size: 13px; font-weight: 800; padding: 5px 16px; border-radius: var(--radius-pill); white-space: nowrap; border: 1px solid rgba(255,255,255,0.2); transition: background 0.2s, color 0.2s; }
-.counter-badge.cheio { background: var(--azul-med); border-color: var(--azul-med); }
+.progress-label {
+  font-size: 12px; font-weight: 700;
+  color: white;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.progress-track {
+  flex: 1; height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 3px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: white;
+  border-radius: 3px; transition: width 0.35s ease;
+}
+.counter-badge {
+  background: rgba(255,255,255,0.2);
+  color: white; font-size: 13px; font-weight: 700;
+  padding: 4px 12px; border-radius: 100px;
+  white-space: nowrap; transition: background 0.2s;
+}
+.counter-badge.cheio { background: rgba(255,255,255,0.35); }
 
-.enunciado-strip {
-  background: var(--azul-med);
-  padding: 0.85rem 2rem;
+/* CONTEÚDO — empurra para baixo da barra fixa */
+.etapa-body {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 80px 24px 120px;
 }
-.enunciado-strip p { color: white; font-size: 14px; line-height: 1.55; }
-.enunciado-strip strong { font-weight: 800; }
 
-/* ── GRUPOS ── */
-.grupos-wrap { max-width: 860px; margin: 0 auto; padding: 1.5rem 1.5rem 0; display: flex; flex-direction: column; gap: 12px; }
-.grupo-bloco { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: var(--radius-lg); overflow: hidden; }
-.grupo-header {
-  padding: 11px 18px;
-  min-height: 44px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--azul);
-}
-.grupo-pill {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--azul-cla);
-}
-.grupo-sel-count {
-  font-size: 12px; color: var(--azul-cla); font-weight: 700;
-  background: rgba(255,255,255,0.10);
-  padding: 4px 10px; border-radius: var(--radius-pill);
-  min-height: 22px; min-width: 1px;
-  display: flex; align-items: center;
-  visibility: hidden; transition: opacity 0.2s;
-}
-.grupo-sel-count.vis { visibility: visible; }
-
+/* ITENS */
 .itens-lista { display: flex; flex-direction: column; }
 .item-card {
-  padding: 12px 18px; cursor: pointer;
+  padding: 14px 16px; cursor: pointer;
   display: flex; align-items: flex-start; gap: 14px;
-  border-bottom: 1px solid var(--cinza-borda);
-  transition: background 0.12s;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  transition: background 0.12s, border-color 0.12s;
   user-select: none;
+  background: white;
 }
-.item-card:last-child { border-bottom: none; }
-.item-card:hover:not(.bloqueado) { background: #EBF4FC; }
-.item-card.selecionado { background: #DCEAF8; }
+.item-card:hover:not(.bloqueado) { background: var(--bg-soft); border-color: #ccc; }
+.item-card.selecionado { background: var(--selected-bg); border-color: var(--selected-border); }
 .item-card.bloqueado:not(.selecionado) { opacity: 0.38; cursor: not-allowed; }
-.item-num { display: none; }
 .item-check {
   width: 20px; height: 20px;
-  border: 2px solid var(--cinza-borda);
+  border: 2px solid var(--border);
   border-radius: 5px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   transition: background 0.12s, border-color 0.12s;
   margin-top: 1px;
 }
-.item-card.selecionado .item-check { background: var(--azul-med); border-color: var(--azul-med); }
+.item-card.selecionado .item-check { background: var(--accent); border-color: var(--accent); }
 .item-card.selecionado .item-check::after {
   content: '';
   width: 10px; height: 6px;
@@ -269,232 +278,201 @@ body { font-family: 'Aptos', 'Segoe UI', sans-serif; background: var(--cinza-fun
   transform: rotate(-45deg) translateY(-1px);
   display: block;
 }
-.item-texto { font-size: 14px; line-height: 1.5; color: var(--vinho); flex: 1; }
+.item-texto { font-size: 14px; line-height: 1.5; color: var(--text); flex: 1; }
 
-/* ── RODAPÉ FIXO ── */
-.rodape-acao {
-  position: sticky; bottom: 0;
-  background: var(--branco);
-  border-top: 1px solid var(--cinza-borda);
-  padding: 1rem 2rem;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-}
-.rodape-hint { font-size: 13px; color: #6B6460; }
-
-/* ── ETAPA 2 intro ── */
+/* ETAPA 2 intro */
 .satisfeitas-intro {
-  max-width: 860px; margin: 0 auto;
-  padding: 1.5rem 1.5rem 0;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-size: 14px; line-height: 1.6; color: var(--text);
 }
-.satisfeitas-intro-inner {
-  background: var(--azul);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem 1.5rem;
+
+/* RODAPÉ FIXO */
+.rodape-acao {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white;
+  border-top: 1px solid var(--border);
+  z-index: 100;
+  display: flex; justify-content: center;
 }
-.satisfeitas-intro-inner p { color: var(--azul-cla); font-size: 14px; line-height: 1.6; }
-.satisfeitas-intro-inner strong { color: white; }
-
-/* ── RESULTADO ── */
-.resultado-hero {
-  background: var(--azul);
-  padding: 2.5rem 2rem 2rem;
-  text-align: center;
+.rodape-acao-inner {
+  width: 100%; max-width: var(--max-w);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px;
 }
-.resultado-hero h2 { font-family: 'Raleway', sans-serif; font-size: 24px; font-weight: 700; color: white; margin-bottom: 6px; }
-.resultado-hero p { font-size: 14px; color: var(--azul-cla); line-height: 1.6; max-width: 500px; margin: 0 auto; }
 
-.resultado-wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+@media (max-width: 480px) {
+  .etapa-body { padding: 76px 16px 110px; }
+  .progress-bar-inner { padding: 14px 16px; }
+  .rodape-acao-inner { padding: 14px 16px; }
+}
 
+/* ══════════════════════════════
+   RESULTADO
+══════════════════════════════ */
+.resultado-titulo {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.resultado-sub {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
 .revelacao-box {
-  background: var(--azul-med);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1.5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 14px; line-height: 1.6; color: var(--text);
 }
-.revelacao-box p { color: white; font-size: 14px; line-height: 1.6; }
-
 .grafico-container {
-  background: var(--branco);
-  border: 1px solid var(--cinza-borda);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem;
 }
-.grafico-titulo { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--azul); margin-bottom: 1rem; }
+.grafico-titulo { font-size: 13px; font-weight: 700; letter-spacing: 0.01em; color: var(--accent-dark); margin-bottom: 1rem; }
 .legenda { display: flex; gap: 20px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-.legenda-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6B6460; }
+.legenda-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); }
 .legenda-cor { width: 12px; height: 12px; border-radius: 3px; }
 
-.listas-resultado { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
-.lista-card { background: var(--branco); border: 1px solid var(--cinza-borda); border-radius: var(--radius-lg); overflow: hidden; }
-.lista-card-header { padding: 12px 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.listas-resultado { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.lista-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.lista-card-header { padding: 14px 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.01em; }
 .lista-card-header.sat { background: var(--verde); color: white; }
 .lista-card-header.nao { background: var(--vermelho); color: white; }
 .lista-card ul { list-style: none; padding: 8px 0; }
-.lista-card ul li { padding: 6px 16px; font-size: 13px; line-height: 1.4; color: var(--vinho); border-bottom: 1px solid var(--cinza-fundo); display: flex; gap: 8px; align-items: flex-start; }
+.lista-card ul li { padding: 6px 16px; font-size: 13px; line-height: 1.4; color: var(--text); border-bottom: 1px solid var(--bg-soft); display: flex; gap: 8px; align-items: flex-start; }
 .lista-card ul li:last-child { border-bottom: none; }
 .lista-card ul li::before { content: '·'; font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: -1px; }
 .lista-card-header.sat + ul li::before { color: var(--verde); }
 .lista-card-header.nao + ul li::before { color: var(--vermelho); }
-.lista-vazia { padding: 16px; font-size: 13px; color: #6B6460; font-style: italic; text-align: center; }
+.lista-vazia { padding: 16px; font-size: 13px; color: var(--text-light); font-style: italic; text-align: center; }
 
-.btn-reiniciar { display: flex; justify-content: center; gap: 12px; margin-top: 1.5rem; flex-wrap: wrap; }
-
-@media (max-width: 600px) {
-  .etapas-grid { grid-template-columns: 1fr; }
+@media (max-width: 480px) {
   .listas-resultado { grid-template-columns: 1fr; }
-  .hero-titulo { font-size: 28px; }
-  .intro-wrap, .grupos-wrap, .resultado-wrap { padding-left: 1rem; padding-right: 1rem; }
-  .progress-bar-wrap, .enunciado-strip, .rodape-acao { padding-left: 1rem; padding-right: 1rem; }
-  .header-badge { display: none; }
-  .hero-pill-mobile { display: inline-block; }
-  .rodape-acao {
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    z-index: 50;
-  }
-  #tela-etapa1 .grupos-wrap,
-  #tela-etapa2 .grupos-wrap {
-    padding-bottom: 96px;
-  }
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header">
-  <span class="header-cresci"><img src="https://i.imgur.com/fUPVKmL.png" alt="Crescimentum"></span>
-  <span class="header-badge">Mapeamento Motivacional</span>
-</header>
-
-<!-- TELA INTRO -->
-<div class="tela ativa" id="tela-intro">
-
-  <div class="hero">
-    <div class="hero-foto"></div>
-    <div class="hero-content">
-      <span class="hero-pill-mobile">Mapeamento Motivacional</span>
-      <h1 class="hero-titulo">O que <em>move você</em><br>no trabalho?</h1>
-      <p class="hero-subtitulo">Diferentes pessoas se motivam por diferentes razões no trabalho. Este mapeamento te ajuda a identificar quais necessidades se destacam para você — e quais delas você sente que já estão sendo atendidas atualmente.</p>
-    </div>
+<!-- ══ TELA CAPA ══ -->
+<div class="screen active" id="tela-capa">
+  <div class="img-placeholder">
+    <img src="https://i.imgur.com/xzwZxn8.png" alt="Capa do mapeamento" style="display:block; width:100%; height:auto; border-radius:0;">
   </div>
-
-  <div class="intro-wrap">
-    <p class="intro-pergunta-label">O que você vai fazer?</p>
-    <div class="etapas-grid">
-      <div class="etapa-card">
-        <div class="etapa-num">1</div>
-        <div class="etapa-info">
-          <strong>O que você valoriza</strong>
-          <span>Você vai ver 100 afirmações. Escolha as 20 que mais gostaria que o seu trabalho proporcionasse.</span>
-        </div>
-      </div>
-      <div class="etapa-card">
-        <div class="etapa-num laranja">2</div>
-        <div class="etapa-info">
-          <strong>O que já está presente</strong>
-          <span>Dos 20 itens que você escolheu, indique quais você sente que já estão sendo atendidos no seu trabalho hoje.</span>
-        </div>
-      </div>
-    </div>
-    <div style="text-align:center;">
-      <button class="btn btn-laranja" onclick="irParaEtapa1()">Começar →</button>
-    </div>
+  <h1 class="cover-title">Mapeamento Motivacional</h1>
+  <p class="body-text">Diferentes pessoas se motivam por diferentes razões no trabalho. Este mapeamento te ajuda a identificar quais necessidades se destacam para você — e quais delas você sente que já estão sendo atendidas atualmente.</p>
+  <div>
+    <button class="btn-primary" onclick="irParaInstrucoes()">Avançar →</button>
   </div>
-
 </div>
 
-<!-- TELA ETAPA 1 -->
-<div class="tela" id="tela-etapa1">
+<!-- ══ TELA INSTRUÇÕES ══ -->
+<div class="screen" id="tela-instrucoes">
+  <div class="img-placeholder">
+    <img src="https://i.imgur.com/GQ37w78.png" alt="Como responder">
+  </div>
+  <h2 class="section-title">Como responder</h2>
+  <p class="body-text">Esse mapeamento possui duas etapas:</p>
+  <p class="body-text"><strong style="color:#007BEA;">Etapa 1:</strong> <strong>O que você valoriza</strong><br>Você vai ver 100 afirmações. Escolha as 20 que mais gostaria que o seu trabalho proporcionasse.</p>
+  <p class="body-text"><strong style="color:#007BEA;">Etapa 2:</strong> <strong>O que já está presente</strong><br>Dos 20 itens que você escolheu, indique quais você sente que já estão sendo atendidos no seu trabalho hoje.</p>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+    <button class="btn-back" style="margin:0;" onclick="irParaCapa()">← Voltar</button>
+    <button class="btn-primary" onclick="irParaEtapa1()">Iniciar Mapeamento →</button>
+  </div>
+</div>
 
+<!-- ══ TELA ETAPA 1 ══ -->
+<div class="etapa-screen" id="tela-etapa1">
   <div class="sticky-topo">
-    <div class="progress-bar-wrap">
+    <div class="progress-bar-inner">
       <span class="progress-label">Etapa 1 de 2</span>
       <div class="progress-track"><div class="progress-fill" id="barra1" style="width:0%"></div></div>
       <span class="counter-badge" id="contador1">0 / 20</span>
     </div>
-    <div class="enunciado-strip">
-      <p>Selecione as <strong>20 afirmações</strong> que mais gostaria que o seu trabalho proporcionasse.</p>
-    </div>
   </div>
 
-  <div class="grupos-wrap" id="grupos-etapa1"></div>
+  <div class="etapa-body">
+    <div class="itens-lista" id="grupos-etapa1"></div>
+  </div>
 
   <div class="rodape-acao">
-    <span class="rodape-hint" id="hint-etapa1">Selecione 20 itens para continuar</span>
-    <button class="btn btn-azul" id="btn-avancar1" onclick="irParaEtapa2()" disabled>Continuar →</button>
+    <div class="rodape-acao-inner">
+      <button class="btn-back" style="margin:0;" onclick="irParaInstrucoes()">← Voltar</button>
+      <button class="btn-primary" id="btn-avancar1" onclick="irParaEtapa2()" disabled>Continuar →</button>
+    </div>
   </div>
-
 </div>
 
-<!-- TELA ETAPA 2 -->
-<div class="tela" id="tela-etapa2">
-
+<!-- ══ TELA ETAPA 2 ══ -->
+<div class="etapa-screen" id="tela-etapa2">
   <div class="sticky-topo">
-    <div class="progress-bar-wrap">
+    <div class="progress-bar-inner">
       <span class="progress-label">Etapa 2 de 2</span>
       <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>
       <span class="counter-badge cheio">Quase lá!</span>
     </div>
   </div>
 
-  <div class="satisfeitas-intro">
-    <div class="satisfeitas-intro-inner">
-      <p>Abaixo estão os <strong>20 itens que você priorizou</strong>. Marque agora apenas aqueles que você sente que <strong>já estão presentes</strong> no seu trabalho hoje. Pode marcar quantos quiser.</p>
+  <div class="etapa-body">
+    <div class="satisfeitas-intro">
+      Abaixo estão os <strong>20 itens que você priorizou</strong>. Marque agora apenas aqueles que você sente que <strong>já estão presentes</strong> no seu trabalho hoje. Pode marcar quantos quiser.
     </div>
+    <div class="itens-lista" id="grupos-etapa2"></div>
   </div>
-
-  <div class="grupos-wrap" id="grupos-etapa2"></div>
 
   <div class="rodape-acao">
-    <button class="btn btn-outline" onclick="voltarEtapa1()">← Voltar</button>
-    <button class="btn btn-laranja" onclick="verResultado()">Ver meu resultado →</button>
+    <div class="rodape-acao-inner">
+      <button class="btn-back" style="margin:0;" onclick="voltarEtapa1()">← Voltar</button>
+      <button class="btn-primary" onclick="verResultado()">Ver meu resultado →</button>
+    </div>
   </div>
-
 </div>
 
-<!-- TELA RESULTADO -->
-<div class="tela" id="tela-resultado">
+<!-- ══ TELA RESULTADO ══ -->
+<div class="screen" id="tela-resultado">
+  <h2 class="resultado-titulo">Seu mapeamento motivacional</h2>
+  <p class="resultado-sub">Veja como suas escolhas se distribuem entre as diferentes necessidades e quais delas ainda pedem atenção.</p>
 
-  <div class="resultado-hero">
-    <h2>Seu mapeamento motivacional</h2>
-    <p>Veja como suas escolhas se distribuem entre as diferentes necessidades — e quais delas ainda pedem atenção.</p>
+  <div class="revelacao-box">
+    Os 10 grupos que você viu correspondem a 10 tipos de necessidade motivacional. Agora você pode ver onde suas escolhas se concentraram.
   </div>
 
-  <div class="resultado-wrap">
-    <div class="revelacao-box">
-      <p>Os 10 grupos que você viu correspondem a 10 tipos de necessidade motivacional. Agora você pode ver onde suas escolhas se concentraram.</p>
+  <div class="grafico-container">
+    <div class="grafico-titulo">Necessidades por categoria</div>
+    <div class="legenda">
+      <div class="legenda-item"><div class="legenda-cor" style="background:#003E00;"></div><span>Valorizadas e satisfeitas</span></div>
+      <div class="legenda-item"><div class="legenda-cor" style="background:#62003B;"></div><span>Valorizadas, mas não satisfeitas</span></div>
     </div>
-
-    <div class="grafico-container">
-      <div class="grafico-titulo">Necessidades por categoria</div>
-      <div class="legenda">
-        <div class="legenda-item"><div class="legenda-cor" style="background:#003E00;"></div><span>Valorizadas e satisfeitas</span></div>
-        <div class="legenda-item"><div class="legenda-cor" style="background:#62003B;"></div><span>Valorizadas, mas não satisfeitas</span></div>
-      </div>
-      <div style="position:relative; width:100%;" id="grafico-wrap">
-        <canvas id="grafico" role="img" aria-label="Gráfico de barras com necessidades motivacionais por categoria"></canvas>
-      </div>
-    </div>
-
-    <div class="listas-resultado">
-      <div class="lista-card">
-        <div class="lista-card-header sat">✓ Satisfeitas</div>
-        <ul id="lista-satisfeitas"></ul>
-      </div>
-      <div class="lista-card">
-        <div class="lista-card-header nao">! Valorizadas, não satisfeitas</div>
-        <ul id="lista-nao-satisfeitas"></ul>
-      </div>
-    </div>
-
-    <div class="btn-reiniciar">
-      <button class="btn btn-outline" onclick="reiniciar()">Refazer o mapeamento</button>
-      <button class="btn btn-laranja" onclick="gerarPDF()">Baixar resultado em PDF</button>
+    <div style="position:relative; width:100%;" id="grafico-wrap">
+      <canvas id="grafico" role="img" aria-label="Gráfico de barras com necessidades motivacionais por categoria"></canvas>
     </div>
   </div>
 
+  <div class="listas-resultado">
+    <div class="lista-card">
+      <div class="lista-card-header sat">Satisfeitas</div>
+      <ul id="lista-satisfeitas"></ul>
+    </div>
+    <div class="lista-card">
+      <div class="lista-card-header nao">Valorizadas, não satisfeitas</div>
+      <ul id="lista-nao-satisfeitas"></ul>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+    <button class="btn-back" style="margin:0;" onclick="reiniciar()">← Refazer o mapeamento</button>
+    <button class="btn-primary" onclick="gerarPDF()">Baixar resultado em PDF</button>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -507,15 +485,15 @@ const GRUPOS = [
     {n:8,  texto:"Receber feedback sobre os trabalhos que realizo."},
     {n:13, texto:"Sentir que meu trabalho contribui para os resultados da empresa."},
     {n:69, texto:"Ter avaliações periódicas do meu desempenho."},
-    {n:72, texto:"Ser reconhecido publicamente na empresa pelo bom desempenho."},
+    {n:72, texto:"Ser reconhecido(a) publicamente na empresa pelo bom desempenho."},
     {n:75, texto:"Haver na empresa uma política de premiação por bons resultados que me permita me destacar."},
     {n:87, texto:"Ter remuneração variável associada ao meu bom desempenho."},
-    {n:95, texto:"Sentir que meus líderes acompanham e valorizam meu trabalho."},
+    {n:95, texto:"Sentir que as lideranças acompanham e valorizam meu trabalho."},
     {n:96, texto:"Querer que as pessoas percebam o quanto sou competente no que faço."}
   ]},
   { nome:"Grupo 2", cat:"Segurança", itens:[
     {n:2,  texto:"Ter plano de saúde e benefícios satisfatórios."},
-    {n:19, texto:"Estar tranquilo com a estabilidade financeira da empresa."},
+    {n:19, texto:"Estar tranquilo(a) com a estabilidade financeira da empresa."},
     {n:23, texto:"Trabalhar naquilo que sei que faço bem."},
     {n:25, texto:"Ter um salário fixo garantido."},
     {n:37, texto:"Ter minha função bem descrita e saber o que esperam de mim."},
@@ -526,39 +504,39 @@ const GRUPOS = [
     {n:81, texto:"Ter alguém que defina objetivos claros para o meu trabalho."}
   ]},
   { nome:"Grupo 3", cat:"Curiosidade", itens:[
-    {n:7,  texto:"Saber o que meus líderes ou colegas pensam de mim e do trabalho que faço."},
+    {n:7,  texto:"Saber o que as lideranças ou colegas pensam de mim e do trabalho que faço."},
     {n:14, texto:"Poder conhecer as razões das decisões que são tomadas."},
     {n:38, texto:"Ter informação sobre o que me cerca, porque para mim é a força que guia tudo que faço."},
     {n:43, texto:"Ter acesso a informações da empresa."},
     {n:49, texto:"Poder resolver problemas completamente novos para mim."},
     {n:57, texto:"Conhecer novas formas de fazer as coisas."},
     {n:58, texto:"Ter tarefas variadas em que posso pesquisar informações complementares."},
-    {n:61, texto:"Saber os salários de todos os que trabalham comigo."},
-    {n:62, texto:"Conhecer as avaliações dos meus colegas."},
-    {n:92, texto:"Conhecer os projetos em que meus colegas estão envolvidos."}
+    {n:61, texto:"Saber os salários de todas as pessoas que trabalham comigo."},
+    {n:62, texto:"Conhecer as avaliações das pessoas com quem trabalho."},
+    {n:92, texto:"Conhecer os projetos em que as pessoas com quem trabalho estão envolvidas."}
   ]},
   { nome:"Grupo 4", cat:"Sociais", itens:[
     {n:5,  texto:"Participar de trabalhos em grupo e reuniões de compartilhamento de boas práticas."},
-    {n:12, texto:"Poder conviver com meus colegas de trabalho."},
+    {n:12, texto:"Poder conviver com as pessoas com quem trabalho."},
     {n:17, texto:"Participar de atividades que promovam o espírito de equipe."},
     {n:24, texto:"Trabalhar com pessoas com quem me identifico."},
     {n:39, texto:"Ter horário flexível que me permita tempo para família e amigos."},
-    {n:48, texto:"Estar integrado à minha equipe."},
+    {n:48, texto:"Estar integrado(a) à minha equipe."},
     {n:56, texto:"Poder participar de atividades promovidas pela empresa, como confraternizações, almoços e eventos."},
-    {n:74, texto:"Ser aceito como membro do grupo de trabalho, podendo compartilhar ideias e pontos de vista."},
+    {n:74, texto:"Ser aceito(a) como parte do grupo de trabalho, podendo compartilhar ideias e pontos de vista."},
     {n:84, texto:"Ter tempo para uma vida pessoal ativa."},
     {n:93, texto:"Poder participar de um grupo esportivo ou de bem-estar na empresa."}
   ]},
   { nome:"Grupo 5", cat:"Sentir-se Importante", itens:[
     {n:3,  texto:"Ter responsabilidades atribuídas a mim."},
     {n:6,  texto:"Ter privilégios exclusivos."},
-    {n:11, texto:"Poder ser escolhido para receber um prêmio ou ser reconhecido pelo excelente desempenho."},
+    {n:11, texto:"Poder ser escolhido(a) para receber um prêmio ou ser reconhecido(a) pelo excelente desempenho."},
     {n:16, texto:"Ter um carro da empresa compatível com meu nível na organização."},
     {n:30, texto:"Sentir que as pessoas reconhecem a importância da minha função."},
-    {n:35, texto:"Sentir que meus colegas me admiram."},
+    {n:35, texto:"Sentir que as pessoas com quem trabalho me admiram."},
     {n:67, texto:"Ter um título de cargo que corresponda à minha responsabilidade."},
     {n:70, texto:"Ter minha opinião solicitada com frequência."},
-    {n:78, texto:"Sentir que meus colegas me respeitam."},
+    {n:78, texto:"Sentir que as pessoas com quem trabalho me respeitam."},
     {n:98, texto:"Ter poucas pessoas a quem prestar contas ou que controlem meu trabalho."}
   ]},
   { nome:"Grupo 6", cat:"Básicas", itens:[
@@ -577,7 +555,7 @@ const GRUPOS = [
     {n:9,  texto:"Ter uma função que se relacione com muitas áreas da empresa."},
     {n:27, texto:"Ser líder."},
     {n:33, texto:"Ter autoridade e poder."},
-    {n:34, texto:"Sentir que posso influenciar meu líder e meus colegas a adotarem minhas ideias."},
+    {n:34, texto:"Sentir que posso influenciar a liderança e meus colegas a adotarem minhas ideias."},
     {n:44, texto:"Ser confidente de algumas pessoas."},
     {n:47, texto:"Poder coordenar uma equipe."},
     {n:66, texto:"Lidar com poucos imprevistos ou ter autonomia para resolvê-los."},
@@ -587,12 +565,12 @@ const GRUPOS = [
   ]},
   { nome:"Grupo 8", cat:"Desenvolvimento", itens:[
     {n:10, texto:"Poder ter experiências novas."},
-    {n:20, texto:"Sentir que posso ser promovido ou assumir outras funções na empresa."},
+    {n:20, texto:"Sentir que posso ser promovido(a) ou assumir outras funções na empresa."},
     {n:21, texto:"Trabalhar em uma empresa em crescimento."},
     {n:28, texto:"Ter acesso a novas tecnologias."},
     {n:32, texto:"Ter possibilidades de crescimento na carreira."},
     {n:80, texto:"Frequentar seminários, conferências e treinamentos para desenvolvimento profissional."},
-    {n:82, texto:"Poder testar novas ideias, formas de atuar e ser criativo."},
+    {n:82, texto:"Poder testar novas ideias, formas de atuar e ser criativo(a)."},
     {n:86, texto:"Sentir que meu trabalho contribui para meu crescimento pessoal."},
     {n:88, texto:"Ter oportunidades de aumentar meus conhecimentos e competências."},
     {n:89, texto:"Ter novas responsabilidades atribuídas a mim."}
@@ -610,11 +588,11 @@ const GRUPOS = [
     {n:99, texto:"Poder trabalhar por prazer."}
   ]},
   { nome:"Grupo 10", cat:"Ideias", itens:[
-    {n:41, texto:"Sentir que a empresa se preocupa com o bem-estar dos colaboradores."},
+    {n:41, texto:"Sentir que a empresa se preocupa com o bem-estar das pessoas colaboradoras."},
     {n:45, texto:"Sentir que minha empresa contribui para o desenvolvimento da sociedade."},
     {n:63, texto:"Ter a sensação de ser socialmente útil."},
     {n:64, texto:"Sentir que existem padrões éticos elevados na organização."},
-    {n:71, texto:"Poder ser útil aos colegas."},
+    {n:71, texto:"Poder ser útil às pessoas com quem trabalho."},
     {n:73, texto:"Sentir que existe equidade na distribuição de recompensas."},
     {n:76, texto:"Confiar que não me será pedido que abra mão dos meus princípios éticos."},
     {n:77, texto:"Sentir que meu trabalho me completa como pessoa."},
@@ -623,134 +601,158 @@ const GRUPOS = [
   ]}
 ];
 
+// Embaralha Fisher-Yates uma vez por sessão
+function embaralhar(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const TODOS_EMBARALHADOS = embaralhar(
+  GRUPOS.flatMap((g, gi) => g.itens.map(item => ({...item, gi})))
+);
+
+const nParaGrupo = {};
+GRUPOS.forEach((g, gi) => g.itens.forEach(item => { nParaGrupo[item.n] = gi; }));
+
 let valorizadas = new Set();
 let satisfeitas = new Set();
 let graficoInstance = null;
 
-// Pré-carrega o logo da Crescimentum para uso no PDF
+// Pré-carrega logo para PDF
 let logoCresci = null;
 (function(){
   const img = new Image();
   img.crossOrigin = 'anonymous';
-  img.onload = ()=>{
+  img.onload = () => {
     try {
       const c = document.createElement('canvas');
       c.width = img.naturalWidth; c.height = img.naturalHeight;
-      c.getContext('2d').drawImage(img,0,0);
+      c.getContext('2d').drawImage(img, 0, 0);
       logoCresci = { src: c.toDataURL('image/png'), width: img.naturalWidth, height: img.naturalHeight };
     } catch(e) {
-      logoCresci = { src: img, width: img.naturalWidth, height: img.naturalHeight };
+      logoCresci = { src: img.src, width: img.naturalWidth, height: img.naturalHeight };
     }
   };
   img.src = 'https://i.imgur.com/fUPVKmL.png';
 })();
 
+// ── NAVEGAÇÃO CAPA / INSTRUÇÕES ──
+function irParaInstrucoes() {
+  document.getElementById('tela-capa').classList.remove('active');
+  document.getElementById('tela-instrucoes').classList.add('active');
+  window.scrollTo(0, 0);
+}
+function irParaCapa() {
+  document.getElementById('tela-instrucoes').classList.remove('active');
+  document.getElementById('tela-capa').classList.add('active');
+  window.scrollTo(0, 0);
+}
 function irParaEtapa1() {
-  document.getElementById('tela-intro').classList.remove('ativa');
-  document.getElementById('tela-etapa1').classList.add('ativa');
+  document.getElementById('tela-instrucoes').classList.remove('active');
+  document.getElementById('tela-etapa1').classList.add('active');
   renderGrupos1();
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
 function renderGrupos1() {
-  const container = document.getElementById('grupos-etapa1');
-  container.innerHTML = '';
-  const bloco = document.createElement('div');
-  bloco.className = 'grupo-bloco';
-  bloco.innerHTML = `<div class="itens-lista" id="lista-unica-1"></div>`;
-  container.appendChild(bloco);
-  const c = document.getElementById('lista-unica-1');
+  const c = document.getElementById('grupos-etapa1');
+  c.innerHTML = '';
   const cheio = valorizadas.size >= 20;
-  const todosItens = GRUPOS.flatMap((grupo, gi) => grupo.itens.map(item => ({...item, gi})));
-  todosItens.forEach(item => {
+  TODOS_EMBARALHADOS.forEach(item => {
     const sel = valorizadas.has(item.n);
     const bloq = cheio && !sel;
     const div = document.createElement('div');
-    div.className = 'item-card'+(sel?' selecionado':'')+(bloq?' bloqueado':'');
-    div.innerHTML = `<span class="item-num">${item.n}</span><div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
-    div.addEventListener('click', () => toggleVal(item.n, item.gi));
+    div.className = 'item-card' + (sel ? ' selecionado' : '') + (bloq ? ' bloqueado' : '');
+    div.innerHTML = `<div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
+    div.addEventListener('click', () => toggleVal(item.n));
     c.appendChild(div);
   });
 }
 
-
-function toggleVal(n, gi) {
+function toggleVal(n) {
   if (valorizadas.has(n)) valorizadas.delete(n);
   else { if (valorizadas.size >= 20) return; valorizadas.add(n); }
-  atualizarGrupo1(gi);
+  atualizarBloqueios1();
   atualizarContador1();
-  atualizarBloqueios1();
-}
-
-function atualizarGrupo1(gi) {
-  atualizarBloqueios1();
 }
 
 function atualizarBloqueios1() {
   const cheio = valorizadas.size >= 20;
-  const c = document.getElementById('lista-unica-1');
+  const c = document.getElementById('grupos-etapa1');
   if (!c) return;
-  const todosItens = GRUPOS.flatMap(g => g.itens);
   const cards = c.querySelectorAll('.item-card');
-  todosItens.forEach((item, idx) => {
+  TODOS_EMBARALHADOS.forEach((item, idx) => {
     const sel = valorizadas.has(item.n);
-    cards[idx].className = 'item-card'+(sel?' selecionado':'')+(cheio&&!sel?' bloqueado':'');
+    cards[idx].className = 'item-card' + (sel ? ' selecionado' : '') + (cheio && !sel ? ' bloqueado' : '');
   });
 }
 
 function atualizarContador1() {
   const n = valorizadas.size;
-  document.getElementById('contador1').textContent = n+' / 20';
-  document.getElementById('contador1').className = 'counter-badge'+(n===20?' cheio':'');
-  document.getElementById('barra1').style.width = (n/20*100)+'%';
-  document.getElementById('btn-avancar1').disabled = n!==20;
-  const hint = document.getElementById('hint-etapa1');
-  if (n===20) hint.textContent = 'Ótimo! Clique em continuar para a próxima etapa.';
-  else if (n>0) hint.textContent = 'Faltam '+(20-n)+(20-n>1?' itens':' item')+' para selecionar';
-  else hint.textContent = 'Selecione 20 itens para continuar';
+  document.getElementById('contador1').textContent = n + ' / 20';
+  document.getElementById('contador1').className = 'counter-badge' + (n === 20 ? ' cheio' : '');
+  document.getElementById('barra1').style.width = (n / 20 * 100) + '%';
+  document.getElementById('btn-avancar1').disabled = n !== 20;
 }
 
 function irParaEtapa2() {
   satisfeitas = new Set();
-  document.getElementById('tela-etapa1').classList.remove('ativa');
-  document.getElementById('tela-etapa2').classList.add('ativa');
+  document.getElementById('tela-etapa1').classList.remove('active');
+  document.getElementById('tela-etapa2').classList.add('active');
   renderGrupos2();
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
 function renderGrupos2() {
-  const container = document.getElementById('grupos-etapa2');
-  container.innerHTML = '';
-  const bloco = document.createElement('div');
-  bloco.className = 'grupo-bloco';
-  bloco.innerHTML = `<div class="itens-lista" id="lista-unica-2"></div>`;
-  container.appendChild(bloco);
-  const c = document.getElementById('lista-unica-2');
-  const todosItens = GRUPOS.flatMap(g => g.itens).filter(i => valorizadas.has(i.n));
+  const c = document.getElementById('grupos-etapa2');
+  c.innerHTML = '';
+  const todosItens = TODOS_EMBARALHADOS.filter(i => valorizadas.has(i.n));
   todosItens.forEach(item => {
     const div = document.createElement('div');
-    div.className = 'item-card'+(satisfeitas.has(item.n)?' selecionado':'');
+    div.className = 'item-card' + (satisfeitas.has(item.n) ? ' selecionado' : '');
     div.innerHTML = `<div class="item-check"></div><span class="item-texto">${item.texto}</span>`;
     div.addEventListener('click', () => {
       if (satisfeitas.has(item.n)) satisfeitas.delete(item.n);
       else satisfeitas.add(item.n);
-      div.className = 'item-card'+(satisfeitas.has(item.n)?' selecionado':'');
+      div.className = 'item-card' + (satisfeitas.has(item.n) ? ' selecionado' : '');
     });
     c.appendChild(div);
   });
 }
 
 function voltarEtapa1() {
-  document.getElementById('tela-etapa2').classList.remove('ativa');
-  document.getElementById('tela-etapa1').classList.add('ativa');
-  window.scrollTo(0,0);
+  document.getElementById('tela-etapa2').classList.remove('active');
+  document.getElementById('tela-etapa1').classList.add('active');
+  window.scrollTo(0, 0);
 }
 
 function verResultado() {
-  document.getElementById('tela-etapa2').classList.remove('ativa');
-  document.getElementById('tela-resultado').classList.add('ativa');
+  document.getElementById('tela-etapa2').classList.remove('active');
+  document.getElementById('tela-resultado').classList.add('active');
   gerarResultado();
-  window.scrollTo(0,0);
+  enviarRespostas();
+  window.scrollTo(0, 0);
+}
+
+function enviarRespostas() {
+  const todosItens = GRUPOS.flatMap(g => g.itens);
+  const textoValorizadas = todosItens.filter(i => valorizadas.has(i.n)).map(i => i.texto);
+  const textoSatisfeitas = todosItens.filter(i => satisfeitas.has(i.n)).map(i => i.texto);
+
+  const dados = {
+    teste: 'Mapeamento Motivacional',
+    data: new Date().toLocaleDateString('pt-BR'),
+    valorizadas: textoValorizadas,
+    satisfeitas: textoSatisfeitas
+  };
+  fetch('https://script.google.com/macros/s/AKfycbyYsd4OHa8LYsjmc--vk229sLFo2wRXoHzRW6QMS4YQB203eSVif5etjBlXpsW7xR0/exec', {
+    method: 'POST',
+    body: JSON.stringify(dados)
+  }).catch(err => console.log('Erro ao enviar:', err));
 }
 
 function gerarResultado() {
@@ -762,92 +764,90 @@ function gerarResultado() {
       if (satisfeitas.has(item.n)) d[g.cat].sat++;
     }
   }));
-  const cats = GRUPOS.map(g=>g.cat);
-  const dataSat  = cats.map(c=>d[c].sat);
-  const dataNao  = cats.map(c=>d[c].val - d[c].sat);
-  const maxVal   = Math.max(...cats.map(c=>d[c].val), 4);
+  const cats = GRUPOS.map(g => g.cat);
+  const dataSat = cats.map(c => d[c].sat);
+  const dataNao = cats.map(c => d[c].val - d[c].sat);
+  const maxVal  = Math.max(...cats.map(c => d[c].val), 4);
 
   const wrap = document.getElementById('grafico-wrap');
-  wrap.style.height = Math.max(340, cats.length*44+80)+'px';
-  if (graficoInstance) { graficoInstance.destroy(); graficoInstance=null; }
+  wrap.style.height = Math.max(340, cats.length * 44 + 80) + 'px';
+  if (graficoInstance) { graficoInstance.destroy(); graficoInstance = null; }
 
   graficoInstance = new Chart(document.getElementById('grafico').getContext('2d'), {
-    type:'bar',
-    plugins:[{
-      id:'fundoBranco',
-      beforeDraw:(chart)=>{
-        const ctx=chart.canvas.getContext('2d');
+    type: 'bar',
+    plugins: [{
+      id: 'fundoBranco',
+      beforeDraw: (chart) => {
+        const ctx = chart.canvas.getContext('2d');
         ctx.save();
-        ctx.globalCompositeOperation='destination-over';
-        ctx.fillStyle='#ffffff';
-        ctx.fillRect(0,0,chart.width,chart.height);
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       }
     }],
-    data:{
+    data: {
       labels: cats,
-      datasets:[
-        {label:'Satisfeitas',    data:dataSat, backgroundColor:'#003E00', borderRadius:0, borderSkipped:false},
-        {label:'Não satisfeitas',data:dataNao, backgroundColor:'#62003B', borderRadius:0, borderSkipped:false}
+      datasets: [
+        {label:'Satisfeitas',     data: dataSat, backgroundColor: '#003E00', borderRadius: 0, borderSkipped: false},
+        {label:'Não satisfeitas', data: dataNao, backgroundColor: '#62003B', borderRadius: 0, borderSkipped: false}
       ]
     },
-    options:{
-      indexAxis:'y', responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.raw+(ctx.raw!==1?' itens':' item')}}},
-      scales:{
-        x:{stacked:true, grid:{color:'rgba(0,0,0,0.06)'}, ticks:{stepSize:1,color:'#6B6460',font:{size:12}}, max:maxVal+1},
-        y:{stacked:true, grid:{display:false}, ticks:{color:'#210000',font:{size:12,weight:'600'},autoSkip:false}}
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {callbacks: {label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.raw + (ctx.raw !== 1 ? ' itens' : ' item')}}
+      },
+      scales: {
+        x: {stacked: true, grid: {color: 'rgba(0,0,0,0.06)'}, ticks: {stepSize:1, color:'#6B6460', font:{size:12}}, max: maxVal+1},
+        y: {stacked: true, grid: {display: false}, ticks: {color:'#210000', font:{size:12, weight:'600'}, autoSkip:false}}
       }
     }
   });
 
-  const lSat  = document.getElementById('lista-satisfeitas');
-  const lNao  = document.getElementById('lista-nao-satisfeitas');
-  lSat.innerHTML=''; lNao.innerHTML='';
-  const iSat = GRUPOS.flatMap(g=>g.itens).filter(i=>satisfeitas.has(i.n));
-  const iNao = GRUPOS.flatMap(g=>g.itens).filter(i=>valorizadas.has(i.n)&&!satisfeitas.has(i.n));
-  if (!iSat.length) lSat.innerHTML='<p class="lista-vazia">Nenhum item marcado como satisfeito.</p>';
-  else iSat.forEach(item=>{const li=document.createElement('li');li.textContent=item.texto;lSat.appendChild(li);});
-  if (!iNao.length) lNao.innerHTML='<p class="lista-vazia">Todas as necessidades estão satisfeitas!</p>';
-  else iNao.forEach(item=>{const li=document.createElement('li');li.textContent=item.texto;lNao.appendChild(li);});
+  const lSat = document.getElementById('lista-satisfeitas');
+  const lNao = document.getElementById('lista-nao-satisfeitas');
+  lSat.innerHTML = ''; lNao.innerHTML = '';
+  const iSat = GRUPOS.flatMap(g => g.itens).filter(i => satisfeitas.has(i.n));
+  const iNao = GRUPOS.flatMap(g => g.itens).filter(i => valorizadas.has(i.n) && !satisfeitas.has(i.n));
+  if (!iSat.length) lSat.innerHTML = '<p class="lista-vazia">Nenhum item marcado como satisfeito.</p>';
+  else iSat.forEach(item => { const li = document.createElement('li'); li.textContent = item.texto; lSat.appendChild(li); });
+  if (!iNao.length) lNao.innerHTML = '<p class="lista-vazia">Todas as necessidades estão satisfeitas!</p>';
+  else iNao.forEach(item => { const li = document.createElement('li'); li.textContent = item.texto; lNao.appendChild(li); });
 }
 
 function gerarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit:'pt', format:'a4' });
-  const PW = doc.internal.pageSize.getWidth();   // ~595
-  const PH = doc.internal.pageSize.getHeight();  // ~842
-  const M  = 48;                                  // margem lateral
-  const CW = PW - M*2;                            // largura útil
+  const PW = doc.internal.pageSize.getWidth();
+  const PH = doc.internal.pageSize.getHeight();
+  const M  = 48;
+  const CW = PW - M * 2;
 
-  // Cores da marca
-  const azul    = [0,27,113];
-  const azulMed = [0,123,234];
-  const verde   = [0,62,0];
-  const vinho   = [98,0,59];
-  const vinhoTx = [33,0,0];
-  const cinza   = [107,100,96];
+  const azul    = [0, 27, 113];
+  const verde   = [0, 62, 0];
+  const vinho   = [98, 0, 59];
+  const vinhoTx = [33, 0, 0];
+  const cinza   = [107, 100, 96];
 
   let y = 0;
 
-  // ── CABEÇALHO (faixa azul + logo centralizado) ──
   function desenharCabecalho() {
     doc.setFillColor(...azul);
     doc.rect(0, 0, PW, 70, 'F');
     if (logoCresci) {
       const logoH = 24;
       const logoW = logoH * (logoCresci.width / logoCresci.height);
-      doc.addImage(logoCresci.src, 'PNG', (PW - logoW)/2, (70 - logoH)/2, logoW, logoH);
+      doc.addImage(logoCresci.src, 'PNG', (PW - logoW) / 2, (70 - logoH) / 2, logoW, logoH);
     } else {
-      // fallback caso o logo não tenha carregado
-      doc.setTextColor(255,255,255);
-      doc.setFont('helvetica','bold');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
       doc.setFontSize(16);
-      doc.text('crescimentum', PW/2, 40, {align:'center'});
+      doc.text('crescimentum', PW / 2, 40, {align: 'center'});
     }
   }
 
-  // Quebra de página com cabeçalho
   function novaPagina() {
     doc.addPage();
     desenharCabecalho();
@@ -857,104 +857,94 @@ function gerarPDF() {
     if (y + precisa > PH - 55) novaPagina();
   }
 
-  // ── PÁGINA 1 ──
   desenharCabecalho();
   y = 100;
 
-  // Título
-  doc.setFont('helvetica','bold');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(20);
   doc.setTextColor(...azul);
   doc.text('Seu mapeamento motivacional', M, y);
   y += 22;
 
-  doc.setFont('helvetica','normal');
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(10.5);
   doc.setTextColor(...vinhoTx);
   const introTxt = 'Veja como suas escolhas se distribuem entre as diferentes necessidades e quais delas ainda pedem atenção.';
   doc.text(doc.splitTextToSize(introTxt, CW), M, y);
-  y += 34;
+  y += 52;
 
-  // ── GRÁFICO (imagem do canvas) ──
-  doc.setFont('helvetica','bold');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.setTextColor(...vinhoTx);
   doc.text('Necessidades por categoria', M, y);
   y += 16;
 
-  // legenda
   doc.setFontSize(8.5);
-  doc.setFont('helvetica','normal');
+  doc.setFont('helvetica', 'normal');
   doc.setFillColor(...verde);
-  doc.rect(M, y-6, 9, 9, 'F');
+  doc.rect(M, y - 6, 9, 9, 'F');
   doc.setTextColor(...vinhoTx);
-  doc.text('Valorizadas e satisfeitas', M+14, y+1);
+  doc.text('Valorizadas e satisfeitas', M + 14, y + 1);
   const seg2x = M + 14 + doc.getTextWidth('Valorizadas e satisfeitas') + 18;
   doc.setFillColor(...vinho);
-  doc.rect(seg2x, y-6, 9, 9, 'F');
-  doc.text('Valorizadas, mas não satisfeitas', seg2x+14, y+1);
+  doc.rect(seg2x, y - 6, 9, 9, 'F');
+  doc.text('Valorizadas, mas não satisfeitas', seg2x + 14, y + 1);
   y += 16;
 
-  // canvas -> imagem
   const canvas = document.getElementById('grafico');
   if (canvas) {
     const imgData = canvas.toDataURL('image/png', 1.0);
     const ratio = canvas.height / canvas.width;
     const imgW = CW;
     const imgH = imgW * ratio;
-    // fundo branco pro gráfico (canvas é transparente)
     checarEspaco(imgH + 10);
-    doc.setFillColor(255,255,255);
     doc.addImage(imgData, 'PNG', M, y, imgW, imgH);
     y += imgH + 24;
   }
 
-  // ── LISTAS ──
   function desenharLista(titulo, corHeader, itens, vazio) {
     checarEspaco(46);
-    // header
     doc.setFillColor(...corHeader);
     doc.roundedRect(M, y, CW, 24, 4, 4, 'F');
-    doc.setTextColor(255,255,255);
-    doc.setFont('helvetica','bold');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
-    doc.text(titulo, M+12, y+16);
+    doc.text(titulo, M + 12, y + 16);
     y += 44;
-
-    doc.setFont('helvetica','normal');
+    doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
     doc.setTextColor(...vinhoTx);
     if (!itens.length) {
       doc.setTextColor(...cinza);
-      doc.text(vazio, M+12, y);
+      doc.text(vazio, M + 12, y);
       y += 20;
     } else {
       itens.forEach(item => {
-        const linhas = doc.splitTextToSize('•  '+item.texto, CW-16);
+        const linhas = doc.splitTextToSize('•  ' + item.texto, CW - 16);
         const altura = linhas.length * 13 + 6;
         checarEspaco(altura);
-        doc.text(linhas, M+12, y);
+        doc.text(linhas, M + 12, y);
         y += altura;
       });
     }
     y += 16;
   }
 
-  const iSat = GRUPOS.flatMap(g=>g.itens).filter(i=>satisfeitas.has(i.n));
-  const iNao = GRUPOS.flatMap(g=>g.itens).filter(i=>valorizadas.has(i.n)&&!satisfeitas.has(i.n));
+  const iSat = GRUPOS.flatMap(g => g.itens).filter(i => satisfeitas.has(i.n));
+  const iNao = GRUPOS.flatMap(g => g.itens).filter(i => valorizadas.has(i.n) && !satisfeitas.has(i.n));
 
-  desenharLista('SATISFEITAS', verde, iSat, 'Nenhum item marcado como satisfeito.');
-  desenharLista('VALORIZADAS, MAS NÃO SATISFEITAS', vinho, iNao, 'Todas as necessidades estão satisfeitas!');
+  desenharLista('Satisfeitas', verde, iSat, 'Nenhum item marcado como satisfeito.');
+  desenharLista('Valorizadas, mas não satisfeitas', vinho, iNao, 'Todas as necessidades estão satisfeitas!');
 
-  doc.save('mapeamento-motivacional.pdf');
+  doc.save('Mapeamento Motivacional - Meu resultado.pdf');
 }
 
 function reiniciar() {
-  valorizadas=new Set(); satisfeitas=new Set();
-  if (graficoInstance){graficoInstance.destroy();graficoInstance=null;}
-  document.getElementById('tela-resultado').classList.remove('ativa');
-  document.getElementById('tela-intro').classList.add('ativa');
-  window.scrollTo(0,0);
+  valorizadas = new Set(); satisfeitas = new Set();
+  if (graficoInstance) { graficoInstance.destroy(); graficoInstance = null; }
+  document.getElementById('tela-resultado').classList.remove('active');
+  document.getElementById('tela-capa').classList.add('active');
+  window.scrollTo(0, 0);
 }
 </script>
 </body>
