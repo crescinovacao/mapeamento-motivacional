@@ -910,8 +910,11 @@ function _gerarPDF(btn) {
   doc.text('Valorizadas, mas não satisfeitas', seg2x + 14, y + 1);
   y += 16;
 
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
   const canvas = document.getElementById('grafico');
-  if (canvas) {
+
+  if (!isMobile && canvas) {
+    // Desktop: captura o canvas normalmente
     const imgData = canvas.toDataURL('image/png', 1.0);
     const ratio = canvas.height / canvas.width;
     const imgW = CW;
@@ -919,6 +922,52 @@ function _gerarPDF(btn) {
     checarEspaco(imgH + 10);
     doc.addImage(imgData, 'PNG', M, y, imgW, imgH);
     y += imgH + 24;
+  } else {
+    // Mobile: desenha o gráfico diretamente com jsPDF
+    const d = {};
+    GRUPOS.forEach(g => d[g.cat] = {val:0, sat:0});
+    GRUPOS.forEach(g => g.itens.forEach(item => {
+      if (valorizadas.has(item.n)) {
+        d[g.cat].val++;
+        if (satisfeitas.has(item.n)) d[g.cat].sat++;
+      }
+    }));
+
+    const cats = GRUPOS.map(g => g.cat);
+    const maxVal = Math.max(...cats.map(c => d[c].val), 1);
+    const barH = 12;
+    const barGap = 10;
+    const labelW = 90;
+    const barMaxW = CW - labelW - 10;
+
+    cats.forEach(cat => {
+      checarEspaco(barH + barGap + 4);
+      const sat = d[cat].sat;
+      const nao = d[cat].val - sat;
+      const wSat = (sat / (maxVal + 1)) * barMaxW;
+      const wNao = (nao / (maxVal + 1)) * barMaxW;
+      const x0 = M + labelW;
+
+      // Label
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(...vinhoTx);
+      doc.text(cat, M + labelW - 4, y + barH - 3, { align: 'right' });
+
+      // Barra satisfeitas
+      if (wSat > 0) {
+        doc.setFillColor(...verde);
+        doc.rect(x0, y, wSat, barH, 'F');
+      }
+      // Barra não satisfeitas
+      if (wNao > 0) {
+        doc.setFillColor(...vinho);
+        doc.rect(x0 + wSat, y, wNao, barH, 'F');
+      }
+
+      y += barH + barGap;
+    });
+    y += 8;
   }
 
   function desenharLista(titulo, corHeader, itens, vazio) {
