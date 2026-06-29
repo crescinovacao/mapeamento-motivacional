@@ -910,7 +910,7 @@ function _gerarPDF(btn) {
   doc.text('Valorizadas, mas não satisfeitas', seg2x + 14, y + 1);
   y += 16;
 
-  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
   const canvas = document.getElementById('grafico');
 
   if (!isMobile && canvas) {
